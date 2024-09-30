@@ -74,8 +74,8 @@ const TabsLayout = () => {
                 }}
             />
 
-            {/* <Tabs.Screen
-                name='noti'
+            <Tabs.Screen
+                name='notification'
                 options={{
                     title: "Notifications",
                     headerShown: false,
@@ -88,7 +88,7 @@ const TabsLayout = () => {
                         />
                     ),
                 }}
-            /> */}
+            />
 
             <Tabs.Screen
                 name='profile'
