@@ -10,7 +10,7 @@ const Carousel = () => {
     ]
     return (
         <View
-            className="bg-white mb-3 flex min-h-[200px] flex-1 items-center justify-center"
+            className=" mb-3 flex min-h-[200px] flex-1 items-center justify-center"
         >
             {slides === null ? (
                 <ActivityIndicator size='large' color='#3A57E8' />
@@ -19,7 +19,7 @@ const Carousel = () => {
                     images={slides}
                     dotColor='#FFFFFF'
                     inactiveDotColor='#F5F5F5'
-                    ImageComponentStyle={{ borderRadius: 15, width: "90%" }}
+                    ImageComponentStyle={{ borderRadius: 15, width: "100%" }}
                     autoplay={true}
                     circleLoop
                     autoplayInterval={3000}
