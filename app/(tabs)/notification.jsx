@@ -1,21 +1,10 @@
 import {
     View,
     Text,
-    RefreshControl,
-    Image,
-    Pressable,
-    ActivityIndicator,
-    ScrollView,
-    ToastAndroid,
     FlatList,
-    Animated,
     TouchableOpacity,
 } from "react-native"
 import {
-    Entypo,
-    FontAwesome,
-    Ionicons,
-    MaterialIcons,
     FontAwesome6
 } from "@expo/vector-icons"
 import Notifi_Item from "../components/Notification_Item"

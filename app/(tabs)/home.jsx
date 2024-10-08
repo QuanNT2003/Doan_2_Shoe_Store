@@ -1,18 +1,7 @@
 import {
     View,
-    Text,
-    RefreshControl,
-    Image,
-    Pressable,
-    ActivityIndicator,
     ScrollView,
-    ToastAndroid,
-    FlatList,
-    Animated,
-    TouchableOpacity,
-    SectionList,
 } from "react-native";
-import Product_item from "../components/product_item/product_item";
 import SearchBar from "../components/SearchBar";
 import Carousel from "../components/Carousel"
 import Product_List from "../components/ProductList";
