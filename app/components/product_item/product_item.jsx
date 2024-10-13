@@ -10,7 +10,7 @@ import {
 const Product_item = ({ item }) => {
     return (
         <TouchableOpacity
-            className='w-[180px] bg-white rounded-lg m-[1%]'
+            className='w-[160px] bg-white rounded-lg m-[1%]'
             style={{
                 shadowColor: "#000",
                 shadowOffset: {
@@ -21,6 +21,9 @@ const Product_item = ({ item }) => {
                 shadowRadius: 2.62,
 
                 elevation: 4,
+            }}
+            onPress={() => {
+                router.push({ pathname: "(page)/ProductDetail/[id]", params: { id: item.id } })
             }}
         >
             <View className='text-wrap flex items-center justify-center m-0 relative'>
@@ -39,9 +42,9 @@ const Product_item = ({ item }) => {
                 Cân điện tử sức khỏe thông minh hình lợn hồng cute, cân tiểu ly mini nhà bếp dùng pin
             </Text>
             <View className='flex-row justify-between items-center px-3 my-2'>
-                <Text className='w-[40%] text-[15px] text-red-500'><Text className='text-[18px]'>đ</Text>40.000</Text>
+                <Text className='w-[50%] text-[15px] text-red-500'>đ40.000</Text>
                 <TouchableOpacity className='p-2 bg-red-300 rounded-full'>
-                    <FontAwesome name='shopping-cart' size={20} color={'red-600'} />
+                    <FontAwesome name='shopping-cart' size={20} color='#dc2626' />
                 </TouchableOpacity>
 
             </View>
