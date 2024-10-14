@@ -8,6 +8,7 @@ import {
     MaterialIcons
 } from "@expo/vector-icons"
 const Product_item = ({ item }) => {
+    const router = useRouter()
     return (
         <TouchableOpacity
             className='w-[160px] bg-white rounded-lg m-[1%]'

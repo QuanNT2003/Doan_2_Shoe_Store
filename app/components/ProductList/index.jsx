@@ -18,7 +18,7 @@ const Product_List = ({ list, title }) => {
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 onEndReachedThreshold={0.5}
-                renderItem={({ item }) => <Product_item />}
+                renderItem={({ item }) => <Product_item item={item} />}
                 ListFooterComponent={<View className='mr-32'></View>}
 
             />
