@@ -6,6 +6,7 @@ import {
     Ionicons,
     MaterialIcons,
 } from "@expo/vector-icons"
+import HeaderCustom from "../HeaderCustom"
 
 const TabIcon = ({ icon, color, name, focused }) => {
     return (
@@ -46,7 +47,7 @@ const TabsLayout = () => {
                 name='home'
                 options={{
                     title: "Home",
-                    headerShown: false,
+                    header: () => (<HeaderCustom />),
                     tabBarIcon: ({ color, focused }) => (
                         <TabIcon
                             icon={<Entypo name='home' size={24} color={color} />}
@@ -62,7 +63,7 @@ const TabsLayout = () => {
                 name='discount'
                 options={{
                     title: "discount",
-                    headerShown: false,
+                    header: () => (<HeaderCustom />),
                     tabBarIcon: ({ color, focused }) => (
                         <TabIcon
                             icon={<FontAwesome name='percent' size={24} color={color} />}
@@ -78,7 +79,7 @@ const TabsLayout = () => {
                 name='notification'
                 options={{
                     title: "Notifications",
-                    headerShown: false,
+                    header: () => (<HeaderCustom />),
                     tabBarIcon: ({ color, focused }) => (
                         <TabIcon
                             icon={<Ionicons name='notifications' size={24} color={color} />}
@@ -94,7 +95,7 @@ const TabsLayout = () => {
                 name='profile'
                 options={{
                     title: "Profile",
-                    headerShown: false,
+                    header: () => (<HeaderCustom />),
                     tabBarIcon: ({ color, focused }) => (
                         <TabIcon
                             icon={

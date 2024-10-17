@@ -11,13 +11,13 @@ const SearchBar = ({
     return (
         <View className="flex border bg-white border-slate-300 flex-row items-center py-1 px-4 rounded-lg" >
             <TextInput
-                className="text-sm min-w-[200px]"
+                className="text-sm min-w-[200px] w-[95%]"
                 value={value}
                 placeholder={placeholder}
                 onChangeText={handleChange}
             />
             <TouchableOpacity onPress={search}>
-                <FontAwesome name='search' />
+                <FontAwesome name='search' size={20} />
             </TouchableOpacity>
         </View>
 
