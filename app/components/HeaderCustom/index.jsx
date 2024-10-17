@@ -1,7 +1,8 @@
-import { TouchableOpacity, View } from "react-native"
-import SearchBar from "../components/SearchBar"
+import { TouchableOpacity, View, Text } from "react-native"
+import SearchBar from "../SearchBar"
 import {
     FontAwesome5,
+    FontAwesome
 } from "@expo/vector-icons"
 import { useRouter } from "expo-router"
 const HeaderCustom = ({ backButton }) => {
@@ -16,9 +17,18 @@ const HeaderCustom = ({ backButton }) => {
                 </TouchableOpacity>
             }
 
-            <View className={backButton ? 'w-[70%]' : 'w-[80%]'}>
-                <SearchBar placeholder={'Tìm kiếm sản phẩm '} />
-            </View>
+            <TouchableOpacity className={backButton ? 'w-[70%]' : 'w-[80%]'} onPress={() => {
+                router.push({ pathname: "(page_no_header)/SearchPage" })
+            }}>
+                <View className="flex border bg-white border-slate-300 flex-row items-center p-2 px-4 rounded-lg" >
+                    <View className='min-w-[200px] w-[95%]'>
+                        <Text className='text-sm text-slate-400'>Tìm kiếm sản phẩm</Text>
+                    </View>
+
+                    <FontAwesome name='search' size={20} />
+
+                </View>
+            </TouchableOpacity>
             <TouchableOpacity className='w-[10%] justify-center flex-row'>
                 <FontAwesome5 name='cart-plus' size={25} className='mr-3' />
             </TouchableOpacity>

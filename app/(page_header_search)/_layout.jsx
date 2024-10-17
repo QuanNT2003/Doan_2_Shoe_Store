@@ -1,7 +1,7 @@
 import { Stack } from "expo-router"
 import React from "react"
-import HeaderCustom from "../HeaderCustom"
-import BackButton from "../components/BackButton"
+import HeaderCustom from "../components/HeaderCustom"
+
 import { Text, TextInput, TouchableOpacity, View } from "react-native"
 const PageLayout = () => {
     return (

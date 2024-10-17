@@ -6,7 +6,7 @@ import {
     Ionicons,
     MaterialIcons,
 } from "@expo/vector-icons"
-import HeaderCustom from "../HeaderCustom"
+import HeaderCustom from "../components/HeaderCustom"
 
 const TabIcon = ({ icon, color, name, focused }) => {
     return (
