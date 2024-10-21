@@ -15,6 +15,9 @@ const PageLayout = () => {
             <Stack.Screen
                 name="ProductDetail/[id]"
             />
+            <Stack.Screen
+                name="ProductCollection/index"
+            />
         </Stack>
     )
 }

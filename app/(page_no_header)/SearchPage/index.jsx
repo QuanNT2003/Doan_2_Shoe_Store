@@ -20,7 +20,7 @@ import ProductTypeItem from "../../components/ProductTypeItem"
 
 const SearchPage = () => {
     const router = useRouter()
-
+    const [search, setSearch] = useState('')
     const [searchResult, setSearchResult] = useState([1, 2, 3])
     const [productType, setProductType] = useState([1, 2, 3, 4, 5, 6])
     return (
@@ -35,7 +35,14 @@ const SearchPage = () => {
 
                 <View className='w-[80%]' onPress={() => {
                 }}>
-                    <SearchBar placeholder={'Tìm kiếm sản phẩm '} />
+                    <SearchBar
+                        placeholder={'Tìm kiếm sản phẩm '}
+                        value={search}
+                        handleChange={setSearch}
+                        search={() => {
+                            router.push({ pathname: "(page_header_search)/ProductCollection", params: { search: search } })
+                        }}
+                    />
                 </View>
 
 
