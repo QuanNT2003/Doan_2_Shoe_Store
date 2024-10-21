@@ -24,7 +24,6 @@ const MultiSelectComp = ({ title, items, selectedItems, setSelectedItems, single
                 displayKey="name"
                 searchIcon={false}
                 styleInputGroup={{
-                    color: '#CCC',
                     padding: 10,
                     borderWidth: 1,
                     borderColor: "#e5e5e5",
