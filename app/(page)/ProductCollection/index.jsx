@@ -51,7 +51,9 @@ const items = [{
 const ProductCollection = () => {
     const router = useRouter()
     const { search } = useLocalSearchParams()
-    const [searchResult, setSearchResult] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    const [searchResult, setSearchResult] = useState([
+        { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }
+    ])
 
     const [openFilter, setOpenFilter] = useState(false)
     const setCloseFilter = () => {
@@ -80,7 +82,7 @@ const ProductCollection = () => {
 
                 </View>}
                 renderItem={({ item }) => <View className='w-[50%] my-2 flex items-center justify-center '>
-                    <Product_item />
+                    <Product_item item={item} />
                 </View>}
                 ListFooterComponent={<View className='mb-10'>
 

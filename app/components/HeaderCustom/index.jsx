@@ -1,5 +1,4 @@
 import { TouchableOpacity, View, Text } from "react-native"
-import SearchBar from "../SearchBar"
 import {
     FontAwesome5,
     FontAwesome
@@ -18,7 +17,7 @@ const HeaderCustom = ({ backButton }) => {
             }
 
             <TouchableOpacity className={backButton ? 'w-[70%]' : 'w-[80%]'} onPress={() => {
-                router.push({ pathname: "(page_no_header)/SearchPage" })
+                router.push({ pathname: "(page)/SearchPage" })
             }}>
                 <View className="flex border bg-white border-slate-300 flex-row items-center p-2 px-4 rounded-lg" >
                     <View className='min-w-[200px] w-[95%]'>
@@ -29,7 +28,9 @@ const HeaderCustom = ({ backButton }) => {
 
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity className='w-[10%] justify-center flex-row'>
+            <TouchableOpacity className='w-[10%] justify-center flex-row' onPress={() => {
+                router.push({ pathname: "(page)/ShoppingCart" })
+            }}>
                 <FontAwesome5 name='cart-plus' size={25} className='mr-3' />
             </TouchableOpacity>
             <TouchableOpacity className='w-[10%] justify-center flex-row'>

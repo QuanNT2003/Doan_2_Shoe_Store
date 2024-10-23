@@ -24,7 +24,7 @@ const Product_item = ({ item }) => {
                 elevation: 4,
             }}
             onPress={() => {
-                router.push({ pathname: "(page_header_search)/ProductDetail/[id]", params: { id: item.id } })
+                router.push({ pathname: "(page)/ProductDetail/[id]", params: { id: item.id } })
             }}
         >
             <View className='text-wrap flex items-center justify-center m-0 relative'>

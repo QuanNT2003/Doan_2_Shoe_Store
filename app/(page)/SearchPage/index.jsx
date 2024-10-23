@@ -40,7 +40,7 @@ const SearchPage = () => {
                         value={search}
                         handleChange={setSearch}
                         search={() => {
-                            router.push({ pathname: "(page_header_search)/ProductCollection", params: { search: search } })
+                            router.push({ pathname: "(page)/ProductCollection", params: { search: search } })
                         }}
                     />
                 </View>
