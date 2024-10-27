@@ -58,14 +58,14 @@ const ShoppingCart = () => {
             <View className='bg-white absolute w-[100%] h-[60px] bottom-0 flex-row'>
                 <TouchableOpacity className='w-[25%] h-[100%] border-r-[1px] border-x-neutral-200 justify-center items-center'>
                     <FontAwesome5 name='trash' size={20} className='mr-3' color='#b91c1c' />
-                    <Text className='text-[12px]'>Xóa bỏ</Text>
+                    <Text className='text-[12px] text-red-500'>Xóa bỏ</Text>
                 </TouchableOpacity>
                 <View className='w-[50%] h-[100%] border-r-[1px] border-x-neutral-200 justify-center items-center' onPress={() => setOpenFilter(true)}>
                     <Text>Tổng thanh toán : <Text className='text-red-500'>1.000.000 đ</Text></Text>
                 </View>
-                <TouchableOpacity className='bg-red-600 w-[25%] h-[100%] justify-center items-center' onPress={() => {
+                <TouchableOpacity className='bg-blue-600 w-[25%] h-[100%] justify-center items-center' onPress={() => {
                     console.log(dataChoose);
-
+                    router.push({ pathname: "(page)/Order", params: { dataChoose: dataChoose } })
                 }}>
                     <Text className='font-bold text-white text-[16px]'>Mua hàng</Text>
                 </TouchableOpacity>
