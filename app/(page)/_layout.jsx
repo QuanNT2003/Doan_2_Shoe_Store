@@ -52,6 +52,26 @@ const PageLayout = () => {
                     headerBackVisible: true,
                 }}
             />
+            <Stack.Screen
+                name="OrderPage/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Danh sách đơn hàng'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
+            <Stack.Screen
+                name="ReturnPage/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Danh sách đơn hoàn/đổi hàng'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
         </Stack>
     )
 }
