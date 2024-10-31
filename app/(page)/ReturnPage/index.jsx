@@ -17,6 +17,7 @@ import { useState } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import { Tab, TabView } from '@rneui/themed';
 import OrderItem from "../../components/OrderItem";
+import ReturnItem from "../../components/ReturnItem";
 
 const ReturnPage = () => {
     const router = useRouter()
@@ -94,7 +95,7 @@ const ReturnPage = () => {
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <OrderItem item={item} />}
+                        renderItem={({ item }) => <ReturnItem item={item} />}
 
                     />
                 </TabView.Item>

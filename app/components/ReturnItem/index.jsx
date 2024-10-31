@@ -9,7 +9,7 @@ import {
 
 } from "@expo/vector-icons"
 import { CheckBox } from '@rneui/themed';
-const OrderItem = ({ item }) => {
+const ReturnItem = ({ item }) => {
     const router = useRouter()
     return (
         <TouchableOpacity className=' bg-white border-solid border-b-[1px] pb-3 border-y-neutral-200 rounded m-2'
@@ -25,7 +25,7 @@ const OrderItem = ({ item }) => {
                 elevation: 4,
             }}
             onPress={() => {
-                router.push({ pathname: "(page)/OrderDetail", params: { id: item.id } })
+                router.push({ pathname: "(page)/ReturnDetail", params: { id: item.id } })
             }}
         >
             <View className='p-3 flex-row justify-between items-center'>
@@ -88,4 +88,4 @@ const OrderItem = ({ item }) => {
     );
 }
 
-export default OrderItem
+export default ReturnItem

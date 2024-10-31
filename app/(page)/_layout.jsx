@@ -72,6 +72,46 @@ const PageLayout = () => {
                     headerBackVisible: true,
                 }}
             />
+            <Stack.Screen
+                name="OrderDetail/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Chi tiết đơn hàng'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
+            <Stack.Screen
+                name="ReturnDetail/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Chi tiết đơn hoàn/đổi hàng'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
+            <Stack.Screen
+                name="OrderProgress/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Tiến độ đơn hàng'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
+            <Stack.Screen
+                name="ReturnProgress/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Tiến độ đơn hoàn/ đổi hàng'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
         </Stack>
     )
 }
