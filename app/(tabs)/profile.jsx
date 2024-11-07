@@ -103,7 +103,7 @@ function profile() {
                 </TouchableOpacity>
             </View>
             <View className='bg-white px-3 my-2'>
-                <TouchableOpacity className='flex flex-row min-h-[60px] justify-between items-center border-b-[1px] border-y-neutral-200'>
+                <TouchableOpacity className='flex flex-row min-h-[60px] justify-between items-center border-b-[1px] border-y-neutral-200' onPress={() => router.push({ pathname: "(page)/VoucherPage", params: { position: 1 } })}>
                     <View className='flex flex-row items-center'>
                         <View className='m-3'>
                             <MaterialCommunityIcons name='sale' size={20} color="#facc15" solid />

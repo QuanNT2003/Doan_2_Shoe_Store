@@ -16,7 +16,7 @@ const Discount_Item = ({ discount, addToCart }) => {
         // addToCart(discount)
     }
     return (
-        <View className='w-[250px] flex-row h-[110px] m-2 border-[1px] border-slate-300 rounded-xl'
+        <View className='w-[320px] flex-row h-[110px] m-1 border-[1px] border-slate-300 rounded-lg'
             style={{
                 shadowColor: "#000",
                 shadowOffset: {
@@ -28,49 +28,34 @@ const Discount_Item = ({ discount, addToCart }) => {
 
                 elevation: 4,
             }}>
-            <View className={colect === true ? 'bg-slate-100 w-[30%] flex flex-col justify-center items-center rounded-xl border-dashed border-e-2' :
-                discount.classify === 'sale' ? 'bg-red-500 w-[30%] flex flex-col justify-center items-center rounded-xl border-dashed border-e-2' :
-                    discount.classify === 'ship' ? 'bg-green-500 w-[30%] flex flex-col justify-center items-center rounded-xl border-dashed border-e-2' :
-                        'bg-blue-500 w-[30%] flex flex-col justify-center items-center rounded-xl border-dashed border-e-2'}>
+            <View className={colect === true ? 'bg-slate-100 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2' :
+                discount.classify === 'sale' ? 'bg-red-500 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2' :
+                    discount.classify === 'ship' ? 'bg-green-500 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2' :
+                        'bg-blue-500 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2'}>
                 <FontAwesome5 name={discount.classify === 'sale' ? 'shopping-cart' :
                     discount.classify === 'ship' ? 'truck' :
-                        'money-bill'} size={30} color={colect === true ? '#64748b' : '#ffffff'} />
-                {discount.classify === 'sale' ? <Text className={colect === true ? 'text-slate-500' : 'text-white'}>sale</Text> :
-                    discount.classify === 'ship' ? <Text className={colect === true ? 'text-slate-500' : 'text-white'}>ship</Text> :
-                        <Text className={colect === true ? 'text-slate-500' : 'text-white'}>payment</Text>}
+                        'money-bill'} size={35} color={colect === true ? '#64748b' : '#ffffff'} />
+                {discount.classify === 'sale' ? <Text className={colect === true ? 'text-slate-500 test-[16px]' : 'text-white test-[16px]'}>sale</Text> :
+                    discount.classify === 'ship' ? <Text className={colect === true ? 'text-slate-500 test-[16px]' : 'text-white test-[16px]'}>ship</Text> :
+                        <Text className={colect === true ? 'text-slate-500' : 'text-white test-[16px]'}>payment</Text>}
             </View>
-            <View className='bg-white w-[70%] flex flex-col p-2 rounded-xl '>
+            <View className='bg-white w-[65%] flex flex-col p-2 rounded-lg justify-between'>
                 {colect === true && <ImageBackground source={ran_out} className='h-[100%] w-[100%] mt-3 flex items-center justify-center absolute right-0 top-0' />}
-                {discount.typeDiscount === false ?
-                    <Text className={colect === true ? 'text-[12px] text-slate-500 ' :
-                        discount.classify === 'sale' ? 'text-[12px] text-red-600 ' :
-                            discount.classify === 'ship' ? 'text-[12px] text-green-600' :
-                                'text-[12px]  text-blue-600'}>
-                        đ {addCommas(discount.value)}
-                    </Text> :
-                    <Text className={colect === true ? 'text-[16px] text-slate-500 ' :
-                        discount.classify === 'sale' ? 'text-[16px] text-red-600 ' :
-                            discount.classify === 'ship' ? 'text-[16px] text-green-600' :
-                                'text-[16px] text-blue-600'}>
-                        {addCommas(discount.value)}% OFF
-                    </Text>}
-                <Text className={colect === true ? 'text-[13px] text-slate-500 ' :
-                    discount.classify === 'sale' ? 'text-[13px] text-red-600 ' :
-                        discount.classify === 'ship' ? 'text-[13px] text-green-600' :
-                            'text-[13px]  text-blue-600'}>
-                    Đơn tối thiểu {addCommas(discount.apply)}đ
-                </Text>
+                <View>
+                    {discount.rank === 0 ? <Text className='text-amber-600 font-semibold text-[12px]'>Khách hàng đồng</Text> :
+                        discount.rank === 1 ? <Text className='text-[#C0C0C0] font-semibold text-[12px]'>Khách hàng bạc</Text> :
+                            discount.rank === 2 ? <Text className='text-[#ffd700] font-semibold text-[12px]'>Khách hàng vàng</Text> :
+                                <Text className='text-[#13a7f5] font-semibold text-[12px]'>Khách hàng kim cương</Text>}
+                    <Text numberOfLines={3} className={colect === true ? 'text-[13px] text-slate-500 ' :
+                        'text-[13px]'}>Từng bừng 11/11, giảm giá 5% tất cả sản phẩm, mua sắm ngay</Text>
+                </View>
+
                 {colect === false &&
-                    <View className='justify-center flex-row m-4'>
+                    <View className='justify-end flex-row'>
                         <TouchableOpacity
-                            onPress={() => onClick()}
-                            className={discount.classify === 'sale' ? 'border-red-400 border-[1px] w-[50%] h-8 bg-white justify-center flex-row items-center' :
-                                discount.classify === 'ship' ? 'border-green-400 border-[1px] w-[50%] h-8 bg-white justify-center flex-row items-center' :
-                                    'border-blue-400 border-[1px] w-[50%] h-8 bg-white justify-center flex-row items-center'}>
-                            <Text className={discount.classify === 'sale' ? 'text-[13px] text-red-600 ' :
-                                discount.classify === 'ship' ? 'text-[13px] text-green-600' :
-                                    'text-[13px]  text-blue-600'}>
-                                Lấy
+                            onPress={() => onClick()}>
+                            <Text className='text-[13px] text-cyan-600'>
+                                Thu thập
                             </Text>
                         </TouchableOpacity>
                     </View>

@@ -112,6 +112,16 @@ const PageLayout = () => {
                     headerBackVisible: true,
                 }}
             />
+            <Stack.Screen
+                name="VoucherPage/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Ví Voucher'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
         </Stack>
     )
 }
