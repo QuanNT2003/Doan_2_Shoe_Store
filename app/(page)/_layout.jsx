@@ -122,6 +122,16 @@ const PageLayout = () => {
                     headerBackVisible: true,
                 }}
             />
+            <Stack.Screen
+                name="Return/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Đổi/trả sản phẩm'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
         </Stack>
     )
 }

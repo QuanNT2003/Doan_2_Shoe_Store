@@ -1,72 +1,41 @@
-import React, { useState } from "react"
-import { Image, ImageBackground, Text, TouchableOpacity, View, FlatList, Modal } from "react-native"
-import { useRouter } from "expo-router"
+import React, { useState } from 'react';
+import { Image, FlatList, Text, TouchableOpacity, View, Modal } from "react-native"
 import LogoWithName from "../../../assets/images/sample.jpg"
-import bg from "../../../assets/images/tag.png"
 import {
-    MaterialCommunityIcons,
-    FontAwesome5
-
+    FontAwesome5,
 } from "@expo/vector-icons"
-import { CheckBox } from '@rneui/themed';
-import ChooseVoucherItem from "../ChooseVoucherItem"
-const ProductOrderItem = ({
-    item,
+import ChooseVoucherItem from '../ChooseVoucherItem';
+const addCommas = (num) => {
+    if (num === null) return;
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+const ChooseVoucher = ({
     voucher,
-    id,
+    title,
     setVoucher,
     deleteVoucher,
-    listVoucher
+    listVoucher,
+    typeVoucher
 }) => {
+
     const [openFilter, setOpenFilter] = useState(false)
     const setCloseFilter = () => {
         setOpenFilter(false)
 
     }
-
-    const set = (discount) => {
-        setVoucher(discount, item.id)
-    }
     return (
-        <View className=' bg-white border-solid border-b-[1px] pb-3 border-y-neutral-200 rounded'
-            style={{
-                shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 2,
-                },
-                shadowOpacity: 0.23,
-                shadowRadius: 2.62,
-
-                elevation: 4,
-            }}>
-            <View className='flex-row p-2 m-1'>
-                <View className='w-[25%] m-1'>
-                    <Image
-                        source={LogoWithName}
-                        className='h-[100px] w-[100px] m-0'
-                    />
-                </View>
-
-                <View className='w-[75%] p-1'>
-                    <Text className=' text-[13px] my-1' numberOfLines={2}>
-                        Cân điện tử sức khỏe thông minh hình lợn hồng cute, cân tiểu ly mini nhà bếp dùng pin
-                    </Text>
-                    <View className='my-1'>
-                        <Text className='text-[12px]'>Size : 25 - Màu sắc : Đỏ vạch đen</Text>
-                    </View>
-                    <View className='flex-row justify-between items-center'>
-                        <Text className='text-[12px]'>đ <Text className='text-[16px]'>500.000</Text></Text>
-                        <Text> x 1</Text>
-                    </View>
-                </View>
-            </View>
+        <View>
             {
                 voucher === '' ? (
                     <TouchableOpacity className='flex-row justify-between px-3 h-[50px] border-y-neutral-200 border-y-[1px] items-center' onPress={() => setOpenFilter(true)}>
                         <View className='flex-row justify-center items-center'>
-                            <MaterialCommunityIcons name='sale' size={20} color='#dc2626' solid />
-                            <Text className='ml-2'>Voucher giảm giá sản phẩm</Text>
+                            {
+                                typeVoucher === 'ship' ? <FontAwesome5 name='shipping-fast' size={20} color='#16a34a' /> :
+                                    <FontAwesome5 name='wallet' size={20} color='#2563eb' />
+                            }
+
+                            <Text className='ml-2 '>{title}</Text>
 
                         </View>
                         <View className='flex-row justify-center items-center'>
@@ -74,21 +43,22 @@ const ProductOrderItem = ({
                             <FontAwesome5 name='chevron-right' size={14} color='#9ca3af' solid />
                         </View>
                     </TouchableOpacity>
-                ) : (<View></View>)
-            }
-            {
-                id === item.id ? (
+                ) : (
                     <View className='flex-row justify-between px-3 h-[50px] border-y-neutral-200 border-y-[1px] items-center'>
-                        <TouchableOpacity className='flex-row items-center' onPress={() => setOpenFilter(true)}>
-                            <MaterialCommunityIcons name='sale' size={20} color='#dc2626' solid />
-                            <Text numberOfLines={2} className='text-[12px] ml-2'>{voucher?.name}</Text>
+                        <TouchableOpacity className='flex-row justify-center items-center' onPress={() => setOpenFilter(true)}>
+                            {
+                                typeVoucher === 'ship' ? <FontAwesome5 name='shipping-fast' size={20} color='#16a34a' /> :
+                                    <FontAwesome5 name='wallet' size={20} color='#2563eb' />
+                            }
+
+                            <Text numberOfLines={2} className='text-[12px] ml-2 '>{voucher?.name}</Text>
 
                         </TouchableOpacity>
                         <TouchableOpacity className='' onPress={() => deleteVoucher()}>
                             <FontAwesome5 name='times-circle' size={18} color='#9ca3af' solid />
                         </TouchableOpacity>
                     </View>
-                ) : (<View></View>)
+                )
             }
 
             <Modal
@@ -114,7 +84,7 @@ const ProductOrderItem = ({
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <ChooseVoucherItem discount={item} voucher={voucher} setVoucher={set} />}
+                        renderItem={({ item }) => <ChooseVoucherItem discount={item} voucher={voucher} setVoucher={setVoucher} />}
 
                     />
                     <View className='bg-white absolute w-[100%] h-[50px] bottom-1 flex-row justify-center'>
@@ -127,7 +97,7 @@ const ProductOrderItem = ({
 
             </Modal>
         </View>
-    );
+    )
 }
 
-export default ProductOrderItem
+export default ChooseVoucher

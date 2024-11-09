@@ -18,8 +18,21 @@ import { useRouter, useLocalSearchParams } from "expo-router"
 import InputCustom from "../../components/InputCustom"
 import ProductOrderItem from "../../components/ProductOrderItem"
 import { CheckBox } from '@rneui/themed';
+import ChooseVoucher from "../../components/ChooseVoucher"
+
 
 const Order = () => {
+
+    const [saleResult, setSaleResult] = useState([
+        { id: 1, name: 'Từng bừng giảm giá', classify: 'sale', rank: 1 }, { id: 2, name: 'Từng bừng giảm giá', classify: 'sale', rank: 0 }
+    ])
+    const [shipResult, setShipResult] = useState([
+        { id: 1, name: 'Từng bừng giảm giá, giảm ship 100k cho tất cả đơn hàng', classify: 'ship', rank: 2 }, { id: 2, name: 'Từng bừng giảm giá', classify: 'ship', rank: 1 }
+    ])
+    const [payResult, setPayResult] = useState([
+        { id: 1, name: 'Từng bừng giảm giá', classify: 'pay', rank: 3 }, { id: 2, name: 'Từng bừng giảm giá', classify: 'pay', rank: 2 }
+    ])
+
     const [searchResult, setSearchResult] = useState([
         { id: 1 }, { id: 2 }
     ])
@@ -51,19 +64,28 @@ const Order = () => {
 
     //Voucher sale off
     const [saleOff, setSaleOff] = useState('')
-    const [visibleSafeOff, setVisibleSafeOff] = useState(true)
-    const onChangeSaleOff = (value) => {
-        setSaleOff(value);
-        setVisibleSafeOff(false)
+    const [idSaleOff, setIdSaleOff] = useState('')
+
+    const onChangeSaleOff = (value, id) => {
+        if (value === '') {
+            setSaleOff('')
+            setIdSaleOff('')
+        }
+        else {
+            setSaleOff(value);
+            setIdSaleOff(id)
+        }
+
+
     };
 
     const deleteSafeOff = () => {
         setSaleOff('')
-        setVisibleSafeOff(true)
+        setIdSaleOff('')
     }
 
     //voucher ship
-    const [ship, setShip] = useState('1')
+    const [ship, setShip] = useState('')
     const onChangeShip = (value) => {
         setShip(value)
     };
@@ -73,7 +95,7 @@ const Order = () => {
     }
 
     //voucher pay
-    const [pay, setPay] = useState('2')
+    const [pay, setPay] = useState('')
     const onChangePay = (value) => {
         setPay(value)
     };
@@ -125,7 +147,7 @@ const Order = () => {
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <ProductOrderItem item={item} voucher={visibleSafeOff} id={saleOff} setId={onChangeSaleOff} deleteId={deleteSafeOff} />}
+                        renderItem={({ item }) => <ProductOrderItem item={item} voucher={saleOff} id={idSaleOff} setVoucher={onChangeSaleOff} deleteVoucher={deleteSafeOff} listVoucher={saleResult} />}
                         nestedScrollEnabled
                         scrollEnabled={false}
                     />
@@ -157,60 +179,10 @@ const Order = () => {
                     </View>
 
                     <View className=' border-b-[1px] border-y-neutral-200 bg-white'>
-                        {
-                            ship === '' ? (
-                                <TouchableOpacity className='flex-row justify-between px-3 h-[50px] border-y-neutral-200 border-y-[1px] items-center' >
-                                    <View className='flex-row justify-center items-center'>
-                                        <FontAwesome5 name='shipping-fast' size={20} color='#16a34a' />
-                                        <Text className='ml-2 '>Voucher giảm phí vận chuyển</Text>
-
-                                    </View>
-                                    <View className='flex-row justify-center items-center'>
-                                        <Text className='mr-2'>Chọn mã</Text>
-                                        <FontAwesome5 name='chevron-right' size={14} color='#9ca3af' solid />
-                                    </View>
-                                </TouchableOpacity>
-                            ) : (
-                                <View className='flex-row justify-between px-3 h-[50px] border-y-neutral-200 border-y-[1px] items-center'>
-                                    <View className=''>
-                                        <Text numberOfLines={2} className='text-[12px]'>Giảm giá mùa xuân, giảm 50% giá trị sản phẩm</Text>
-
-                                    </View>
-                                    <TouchableOpacity className='' onPress={() => deleteShip()}>
-                                        <FontAwesome5 name='times-circle' size={18} color='#9ca3af' solid />
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                        }
-
-
+                        <ChooseVoucher title={'Voucher giảm phí vận chuyển'} setVoucher={setShip} deleteVoucher={deleteShip} voucher={ship} typeVoucher={'ship'} listVoucher={shipResult} />
                         {
                             selectedIndex !== 0 &&
-                            <View>
-                                {
-                                    pay === '' ? (<TouchableOpacity className='flex-row justify-between px-3 h-[50px] border-y-neutral-200 border-y-[1px] items-center' >
-                                        <View className='flex-row justify-center items-center'>
-                                            <FontAwesome5 name='wallet' size={20} color='#2563eb' />
-                                            <Text className='ml-2 '>Voucher giảm phí thanh toán</Text>
-
-                                        </View>
-                                        <View className='flex-row justify-center items-center'>
-                                            <Text className='mr-2'>Chọn mã</Text>
-                                            <FontAwesome5 name='chevron-right' size={14} color='#9ca3af' solid />
-                                        </View>
-                                    </TouchableOpacity>) : (
-                                        <View className='flex-row justify-between px-3 h-[50px] border-y-neutral-200 border-y-[1px] items-center'>
-                                            <View className=''>
-                                                <Text numberOfLines={2} className='text-[12px]'>Giảm giá mùa xuân, giảm 50% giá trị sản phẩm</Text>
-
-                                            </View>
-                                            <TouchableOpacity className='' onPress={() => deletePay()}>
-                                                <FontAwesome5 name='times-circle' size={18} color='#9ca3af' solid />
-                                            </TouchableOpacity>
-                                        </View>
-                                    )
-                                }
-                            </View>
+                            <ChooseVoucher title={'Voucher giảm thanh toán'} setVoucher={setPay} deleteVoucher={deletePay} voucher={pay} typeVoucher={'pay'} listVoucher={payResult} />
 
                         }
 
