@@ -22,14 +22,21 @@ function profile() {
     return (
         <View>
             <View className='flex-row bg-cyan-600 p-3 items-center mb-3'>
-                <Image
+                {/* <Image
                     source={LogoWithName}
                     className='h-[100px] w-[100px] m-3 rounded-full'
                 />
                 <View>
                     <Text className='text-[18px] font-bold mb-2'> Ngo Trung Quan</Text>
                     <Text>Hội viên tiềm năng</Text>
-                </View>
+                </View> */}
+                <Image
+                    source={LogoWithName}
+                    className='h-[100px] w-[100px] m-3 rounded-full'
+                />
+                <TouchableOpacity onPress={() => router.push({ pathname: "(page)/Login" })}>
+                    <Text className='text-white font-bold text-[18px]'>Đăng nhập</Text>
+                </TouchableOpacity>
             </View>
             <View className='bg-white px-3 my-2'>
                 <TouchableOpacity className='flex flex-row min-h-[60px] justify-between items-center border-b-[1px] border-y-neutral-200' onPress={() => router.push({ pathname: "(page)/OrderPage", params: { position: 0 } })}>
