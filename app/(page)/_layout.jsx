@@ -132,6 +132,16 @@ const PageLayout = () => {
                     headerBackVisible: true,
                 }}
             />
+            <Stack.Screen
+                name="Comment/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Đánh giá sản phẩm'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
         </Stack>
     )
 }

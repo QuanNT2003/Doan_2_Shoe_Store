@@ -27,6 +27,7 @@ function InputCustom({
               ? "flex-1 rounded border p-1 text-base font-semibold"
               : "flex-1 rounded border border-red-500 p-1 text-base font-semibold"
           }
+          numberOfLines={area ? 4 : 1}
           value={value}
           placeholder={placeholder}
           onChangeText={handleChange}

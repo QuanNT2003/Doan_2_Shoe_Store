@@ -133,7 +133,7 @@ const Order = () => {
                         title={'Địa chỉ'}
                         placeholder={'Nhập địa chỉ'}
                         require
-                        area
+                        area={true}
                         value={address}
                         error={errorAddress}
                         handleChange={onChangeAddress}

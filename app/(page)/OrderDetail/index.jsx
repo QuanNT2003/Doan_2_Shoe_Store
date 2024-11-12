@@ -96,7 +96,7 @@ const OrderDetail = () => {
                                     </View>
                                 </View>
                                 <View className='flex-row justify-around m-2'>
-                                    <TouchableOpacity className='border-[1px] border-green-400 w-[40%] h-[40px] justify-center items-center rounded-md' >
+                                    <TouchableOpacity className='border-[1px] border-green-400 w-[40%] h-[40px] justify-center items-center rounded-md' onPress={() => router.push({ pathname: "(page)/Comment" })}>
                                         <Text className='font-bold text-green-600'>Đánh giá</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity className='border-[1px] border-red-400 w-[40%] h-[40px] justify-center items-center rounded-md' >
