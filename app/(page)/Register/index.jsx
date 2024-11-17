@@ -158,7 +158,7 @@ const Register = () => {
                                 require
                                 title={'Otp'}
                                 placeholder={'Nhập otp'}
-                                password
+
                             />
                         }
                         {
@@ -172,7 +172,7 @@ const Register = () => {
                                     require
                                     title={'Name'}
                                     placeholder={'Nhập name'}
-                                    password
+
                                 />
                                 <InputCustom
                                     value={phone}
@@ -181,7 +181,7 @@ const Register = () => {
                                     require
                                     title={'Số điện thoại'}
                                     placeholder={'Nhập số điện thoại'}
-                                    password
+
                                 />
                                 <InputCustom
                                     value={password}
@@ -193,7 +193,7 @@ const Register = () => {
                                     password
                                 />
                                 <InputCustom
-                                    value={comfirmOtp}
+                                    value={confirmPassword}
                                     error={errorConfirmPassword}
                                     handleChange={onChangeConfirmPassword}
                                     require

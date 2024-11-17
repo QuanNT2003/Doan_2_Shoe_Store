@@ -123,7 +123,7 @@ function profile() {
                         <FontAwesome5 name='chevron-right' size={14} color='#9ca3af' solid />
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity className='flex flex-row min-h-[60px] items-center border-b-[1px] border-y-neutral-200'>
+                <TouchableOpacity className='flex flex-row min-h-[60px] items-center border-b-[1px] border-y-neutral-200' onPress={() => router.push({ pathname: "(page)/UserDetail" })}>
                     <View className='m-3'>
                         <FontAwesome5 name='user' size={20} color="#60a5fa" solid />
                     </View>
