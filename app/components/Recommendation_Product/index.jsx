@@ -18,7 +18,7 @@ const Recommen_List = ({ list }) => {
                 showsVerticalScrollIndicator={false}
                 onEndReachedThreshold={0.5}
                 renderItem={({ item }) => <View className='w-[50%] my-2 flex items-center justify-center'>
-                    <Product_item />
+                    <Product_item item={item} />
                 </View>}
                 ListFooterComponent={<View className='mb-10'></View>}
                 nestedScrollEnabled

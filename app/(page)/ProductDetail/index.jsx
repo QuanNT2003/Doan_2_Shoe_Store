@@ -19,53 +19,148 @@ import Carousel from "../../components/Carousel"
 import Product_List from "../../components/ProductList"
 import { Rating } from 'react-native-ratings';
 import CommentItem from "../../components/Comment_Item"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import SelectVersion from "../../components/SelectVersion"
 import example from "../../../assets/images/sample.jpg"
+import * as ProductServices from '../../apiServices/productServices'
+import * as VersionServices from '../../apiServices/versionServices'
+
+
+
 const ProductDetail = () => {
     const router = useRouter()
     const { id } = useLocalSearchParams()
 
-    const listItem = [
-        { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }
-    ]
+    const [slides, setSlides] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [obj, setObj] = useState(null);
+    const [listRelated, setListRelated] = useState([])
+    // const listItem = [
+    //     { productId: 1 }, { productId: 2 }, { productId: 3 }, { productId: 4 }, { productId: 5 }, { productId: 6 }
+    // ]
     const [openFilter, setOpenFilter] = useState(false)
     const setCloseFilter = () => {
         setOpenFilter(false)
 
     }
 
-    const [size, setSize] = useState()
-    const [color, setColor] = useState()
+    // Add to cart
+    const [sizeList, setSizeList] = useState([])
+    const [colorList, setColorList] = useState([])
+    const [size, setSize] = useState('')
+    const [color, setColor] = useState('')
     const [quantity, setQuantity] = useState(1)
+    const [version, setVersion] = useState()
+    const changeColor = (value) => {
+        setColor(value)
+        console.log(value);
+        if (size !== '') getVersion(size._id, value._id)
+    }
+
+    const changeSize = (value) => {
+        setSize(value)
+        console.log(value);
+        if (color !== '') getVersion(value._id, color._id)
+    }
+    const getVersion = async (sizeId, colorId) => {
+        const fetchApi = async () => {
+            setLoading(true)
+            let sizeL = []
+            let colorL = []
+            sizeL.push({ value: sizeId })
+            colorL.push({ value: colorId })
+            const result = await VersionServices.getAllVersions({
+                productId: id,
+                size: sizeL,
+                color: colorL
+            })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            if (result) {
+                console.log(result.data[0]);
+                setVersion(result.data[0])
+                // if (result.data[0].inStock < quantity) toastContext.notify('warning', 'Số lượng sản phẩm còn dưới ' + quantity);
+                console.log(result.data[0].inStock);
+
+            }
+
+        }
+
+        fetchApi();
+        setLoading(false)
+    }
     const onChanged = (text) => {
         if (Number(text.replace(/[^0-9]/g, '')) > 10) setQuantity(10)
         else setQuantity(Number(text.replace(/[^0-9]/g, '')))
 
     }
-    const sizeList = [
-        { id: 1, name: 34 },
-        { id: 2, name: 35 },
-        { id: 3, name: 36 },
-        { id: 4, name: 37 },
-    ]
-    const colorList = [
-        { id: 1, name: 'Nâu' },
-        { id: 2, name: 'Lục' },
-        { id: 3, name: 'Vàng' },
-        { id: 4, name: 'Đỏ' },
-    ]
+
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            setObj(null)
+            const result = await ProductServices.getProduct(id)
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            if (result) {
+                // console.log("Detail Product : ", result);
+                setObj(result.data);
+                const data = await result.data.images.map((cate) => (cate.url));
+                setSlides(data)
+            }
+            const resultSize = await VersionServices.getVersionSize(id)
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            if (resultSize) {
+
+                setSizeList(resultSize.data)
+
+            }
+            const resultColor = await VersionServices.getVersionColor(id)
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            if (resultColor) {
+
+                setColorList(resultColor.data)
+
+            }
+
+            const related = await ProductServices.getRelatedProducts(id)
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            if (related) {
+                setListRelated(related.data)
+
+            }
+
+
+        }
+
+        fetchApi();
+        // setLoading(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
     return (
         <View className='relative'>
             <ScrollView className='mb-5'>
-                <Carousel />
+                <Carousel slides={slides} />
                 <View className='bg-white my-3'>
-                    <Text className='text-[18px] font-semibold ml-2 p-3 border-b-[1px] border-y-neutral-200'>Balo Đi Học Phối Nhiều Màu Sắc Dành Cho Nam Nữ PRAZA - BLS0200</Text>
+                    <Text className='text-[18px] font-semibold ml-2 p-3 border-b-[1px] border-y-neutral-200'>{obj?.name}</Text>
 
                     <View className='flex-row items-baseline p-3 mx-2 border-b-[1px] border-y-neutral-200'>
-                        <Text className='text-red-700 text-[16px] font-bold'>đ</Text>
-                        <Text className='text-red-700 text-[24px] font-bold'>106.000</Text>
-                        <Text className='text-[16px] text-slate-400 line-through ml-4'>120.000đ</Text>
+                        <Text className='text-red-700 text-[16px] font-bold'>đ </Text>
+                        <Text className='text-red-700 text-[24px] font-bold'>{obj?.price - obj?.price * obj?.discount / 100}</Text>
+                        <Text className='text-[16px] text-slate-400 line-through ml-4'>{obj?.price} đ</Text>
                     </View>
 
                     <View className='ml-2 p-3 border-b-[1px] border-y-neutral-200 flex-row items-center'>
@@ -103,7 +198,7 @@ const ProductDetail = () => {
                     </View>
                 </View>
                 <View className='bg-white my-3'>
-                    <Product_List list={listItem} title={'Sản phẩm tương tự'} />
+                    <Product_List list={listRelated} title={'Sản phẩm tương tự'} />
                 </View>
             </ScrollView>
 
@@ -141,11 +236,11 @@ const ProductDetail = () => {
                         ListHeaderComponent={(
                             <View>
                                 <Image
-                                    source={example}
+                                    source={obj?.images[0]?.url ? { uri: obj?.images[0]?.url } : example}
                                     className='h-[160px] w-[100%] m-0'
                                 />
-                                <SelectVersion lists={sizeList} title={'Chọn szie'} onChange={setSize} select={size?.name} />
-                                <SelectVersion lists={colorList} title={'Chọn màu sắc'} onChange={setColor} select={color?.name} />
+                                <SelectVersion lists={sizeList} title={'Chọn szie'} onChange={changeSize} select={size?.name} />
+                                <SelectVersion lists={colorList} title={'Chọn màu sắc'} onChange={changeColor} select={color?.name} />
                                 <View className='p-2 border-b-[1px] border-y-neutral-200 '>
                                     <Text className='py-2'>Chọn số lượng</Text>
                                     <View className='flex-row items-center w-[50%]'>

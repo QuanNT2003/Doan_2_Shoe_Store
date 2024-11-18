@@ -7,8 +7,12 @@ import {
     FontAwesome,
     MaterialIcons
 } from "@expo/vector-icons"
+
+// const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const Product_item = ({ item }) => {
     const router = useRouter()
+    const product = item || { name: "N/A", productId: "unknown", images: [] };
+
     return (
         <TouchableOpacity
             className='w-[160px] bg-white rounded-lg m-[1%]'
@@ -24,26 +28,48 @@ const Product_item = ({ item }) => {
                 elevation: 4,
             }}
             onPress={() => {
-                router.push({ pathname: "(page)/ProductDetail/[id]", params: { id: item.id } })
+                if (product.productId && product.productId !== "unknown") {
+                    router.push({
+                        pathname: "(page)/ProductDetail",
+                        params: { id: product?.productId },
+                    });
+                } else {
+                    console.warn("Invalid Product ID");
+                }
+                // if (item?.productId) {
+                //     console.log(item?.productId);
+
+                //     router.push({
+                //         pathname: "(page)/ProductDetail",
+                //         params: { id: item?.productId },
+                //     });
+                // } else {
+                //     console.warn("Item or Product ID is undefined");
+                // }
+                // router.push({ pathname: "(page)/ProductDetail", params: { id: item.productId } })
             }}
         >
             <View className='text-wrap flex items-center justify-center m-0 relative'>
                 <Image
-                    source={LogoWithName}
+                    source={
+                        item?.images[0]?.url
+                            ? { uri: item.images[0].url }
+                            : LogoWithName
+                    }
                     className='h-[160px] w-[100%] m-0'
                 />
                 <View className='absolute w-[50px] h-[70px] right-0 top-0 ' >
                     <ImageBackground source={bg} className='h-[100%] w-[100%] flex items-center justify-center'>
-                        <Text className='text-slate-900'>-10%</Text>
+                        <Text className='text-slate-900'>-{item?.discount}%</Text>
                     </ImageBackground>
 
                 </View>
             </View>
             <Text className='px-3 text-[13px] my-1' numberOfLines={2}>
-                Cân điện tử sức khỏe thông minh hình lợn hồng cute, cân tiểu ly mini nhà bếp dùng pin
+                {item?.name}
             </Text>
             <View className='flex-row justify-between items-center px-3 my-2'>
-                <Text className='w-[50%] text-[15px] text-red-500'>đ40.000</Text>
+                <Text className='w-[60%] text-[15px] text-red-500'>đ {item?.price}</Text>
                 <TouchableOpacity className='p-2 bg-red-300 rounded-full'>
                     <FontAwesome name='shopping-cart' size={20} color='#dc2626' />
                 </TouchableOpacity>

@@ -6,7 +6,7 @@ const PageLayout = () => {
     return (
         <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen
-                name="ProductDetail/[id]"
+                name="ProductDetail/index"
                 options={{
                     headerShown: true,
                     header: () => (
