@@ -17,6 +17,12 @@ import { useState } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import InputCustom from "../../components/InputCustom"
 import LogoWithName from "../../../assets/images/Logo-with-name.png"
+import * as UserService from '../../apiServices/userServices';
+import * as asyncStorage from "../../store/asyncStorage"
+
+const showToastWithGravity = (msg) => {
+    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+}
 const Login = () => {
     const router = useRouter()
     // email
@@ -42,9 +48,47 @@ const Login = () => {
             setErrorPassword('Không được để trống')
         }
         if (email !== '' && password !== '') {
-            setErrorPassword('Đã nhập')
-            setErrorEmail('Đã nhập')
+            const obj = {
+                email: email,
+                password: password
+            }
+
+            const result = await UserService.login(obj)
+                .catch((error) => {
+                    console.log(error);
+                    showToastWithGravity("Vui lòng kiểm tra lại email hoặc mật khẩu")
+                });
+
+            if (result) {
+                console.log(result)
+                if (result.status === 'ERR') showToastWithGravity("Vui lòng kiểm tra lại email hoặc mật khẩu")
+                else {
+                    if (result.data.active === false) showToastWithGravity("Tài khoản bị khóa")
+                    else {
+                        // console.log(result);
+
+                        await asyncStorage.setIsLogin("true")
+                        await asyncStorage.setRole("user")
+                        await asyncStorage.setAccessToken(result.access_token)
+                        await asyncStorage.setRefreshToken(result.refresh_token)
+                        await asyncStorage.setIdAsync(result.data.userId)
+
+                        // window.localStorage.setItem('user', JSON.stringify(result.data));
+                        // window.localStorage.setItem('access_token', JSON.stringify(result.access_token));
+                        // window.localStorage.setItem('refresh_token', JSON.stringify(result.refresh_token));
+                        // window.localStorage.setItem('role', "user");
+                        showToastWithGravity("Đăng nhập thành công")
+
+                        // toastContext.notify('success', 'Đăng nhập thành công');
+                        router.replace("home")
+                    }
+
+                }
+
+            }
         }
+
+
     }
     return (
         <View className='m-0 p-4 relative justify-center flex items-center w-full'>

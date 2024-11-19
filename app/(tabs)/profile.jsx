@@ -17,27 +17,71 @@ import {
     MaterialCommunityIcons
 } from "@expo/vector-icons"
 import LogoWithName from "../../assets/images/sample.jpg"
+import * as asyncStorage from "../store/asyncStorage"
+import * as UserServices from '../apiServices/userServices';
+import { useState, useEffect } from "react"
 function profile() {
     const router = useRouter()
+
+    const [isLogin, setIsLogin] = useState(false)
+    const [user, setUser] = useState('')
+    const [day, setDay] = useState(new Date())
+
+    useEffect(() => {
+        const fetch = async () => {
+            const login = await asyncStorage.getIsLogin()
+            setIsLogin(login)
+            if (login === 'true') {
+                const id = await asyncStorage.getIdAsync()
+                console.log("id", id);
+
+                const result = await UserServices.getUser(id)
+
+                console.log(result);
+                setUser(result.data)
+
+            }
+        }
+
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [day]);
+
     return (
         <View>
-            <View className='flex-row bg-cyan-600 p-3 items-center mb-3'>
-                {/* <Image
-                    source={LogoWithName}
-                    className='h-[100px] w-[100px] m-3 rounded-full'
-                />
-                <View>
-                    <Text className='text-[18px] font-bold mb-2'> Ngo Trung Quan</Text>
-                    <Text>Hội viên tiềm năng</Text>
-                </View> */}
-                <Image
-                    source={LogoWithName}
-                    className='h-[100px] w-[100px] m-3 rounded-full'
-                />
-                <TouchableOpacity onPress={() => router.push({ pathname: "(page)/Login" })}>
-                    <Text className='text-white font-bold text-[18px]'>Đăng nhập</Text>
-                </TouchableOpacity>
-            </View>
+            {
+                isLogin === 'true' ? <View className='flex-row bg-cyan-600 p-3 items-center mb-3'>
+                    <Image
+                        source={
+                            user?.images
+                                ? {
+                                    uri: user?.images[0]?.url
+                                }
+                                : LogoWithName
+                        }
+                        className='h-[100px] w-[100px] m-3 rounded-full'
+                    />
+                    <View>
+                        <Text className='text-[18px] font-bold mb-2'>{user?.name}</Text>
+                        {
+                            user?.rank === 0 ? <Text>Hội viên đồng</Text> :
+                                user?.rank === 1 ? <Text>Hội viên bạc</Text> :
+                                    user?.rank === 2 ? <Text>Hội viên vàng</Text> :
+                                        <Text>Hội viên kim cương</Text>
+                        }
+
+                    </View>
+                </View> : <View className='flex-row bg-cyan-600 p-3 items-center mb-3'>
+
+                    <Image
+                        source={LogoWithName}
+                        className='h-[100px] w-[100px] m-3 rounded-full'
+                    />
+                    <TouchableOpacity onPress={() => router.push({ pathname: "(page)/Login" })}>
+                        <Text className='text-white font-bold text-[18px]'>Đăng nhập</Text>
+                    </TouchableOpacity>
+                </View>
+            }
             <View className='bg-white px-3 my-2'>
                 <TouchableOpacity className='flex flex-row min-h-[60px] justify-between items-center border-b-[1px] border-y-neutral-200' onPress={() => router.push({ pathname: "(page)/OrderPage", params: { position: 0 } })}>
                     <View className='flex flex-row items-center'>
@@ -130,7 +174,14 @@ function profile() {
 
                     <Text className='text-[18px]'>Thông tin cá nhân</Text>
                 </TouchableOpacity>
-                <TouchableOpacity className='flex flex-row min-h-[60px] items-center border-b-[1px] border-y-neutral-200'>
+                <TouchableOpacity className='flex flex-row min-h-[60px] items-center border-b-[1px] border-y-neutral-200' onPress={async () => {
+                    await asyncStorage.setIsLogin("false")
+                    await asyncStorage.setRole("")
+                    await asyncStorage.setAccessToken("")
+                    await asyncStorage.setRefreshToken("")
+                    setDay(new Date())
+
+                }}>
                     <View className='m-3'>
                         <MaterialCommunityIcons name='logout' size={20} color="#f87171" solid />
                     </View>
