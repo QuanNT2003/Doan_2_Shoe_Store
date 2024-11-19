@@ -10,6 +10,10 @@ import {
 } from "@expo/vector-icons"
 import { CheckBox } from '@rneui/themed';
 import ChooseVoucherItem from "../ChooseVoucherItem"
+const addCommas = (num) => {
+    if (num === null) return;
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 const ProductOrderItem = ({
     item,
     voucher,
@@ -50,14 +54,14 @@ const ProductOrderItem = ({
 
                 <View className='w-[75%] p-1'>
                     <Text className=' text-[13px] my-1' numberOfLines={2}>
-                        Cân điện tử sức khỏe thông minh hình lợn hồng cute, cân tiểu ly mini nhà bếp dùng pin
+                        {item?.product?.name}
                     </Text>
                     <View className='my-1'>
-                        <Text className='text-[12px]'>Size : 25 - Màu sắc : Đỏ vạch đen</Text>
+                        <Text className='text-[12px]'>Size : {item?.version?.size?.name} - Màu sắc : {item?.version?.color?.name}</Text>
                     </View>
                     <View className='flex-row justify-between items-center'>
-                        <Text className='text-[12px]'>đ <Text className='text-[16px]'>500.000</Text></Text>
-                        <Text> x 1</Text>
+                        <Text className='text-[12px]'>đ <Text className='text-[16px]'>{addCommas(item?.product?.price)}</Text></Text>
+                        <Text> x {item?.quantity}</Text>
                     </View>
                 </View>
             </View>

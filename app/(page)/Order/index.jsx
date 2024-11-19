@@ -13,14 +13,17 @@ import {
     MaterialCommunityIcons,
     FontAwesome5
 } from "@expo/vector-icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import InputCustom from "../../components/InputCustom"
 import ProductOrderItem from "../../components/ProductOrderItem"
 import { CheckBox } from '@rneui/themed';
 import ChooseVoucher from "../../components/ChooseVoucher"
 
-
+const addCommas = (num) => {
+    if (num === null) return;
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 const Order = () => {
 
     const [saleResult, setSaleResult] = useState([
@@ -37,7 +40,11 @@ const Order = () => {
         { id: 1 }, { id: 2 }
     ])
     const router = useRouter()
-    const { productList } = useLocalSearchParams()
+    // const { listBuy } = useLocalSearchParams()
+
+    // console.log('list buy :', listBuy);
+    const local = useLocalSearchParams()
+    const [listBuy, setListBuy] = useState([])
     // NAME
     const [email, setEmail] = useState('');
     const onChangeEmail = (value) => {
@@ -107,6 +114,20 @@ const Order = () => {
     // Payment Type 
     const [paymentType, setPaymentType] = useState('cod')
     const [selectedIndex, setIndex] = useState(0);
+
+    useEffect(() => {
+        if (local.listBuy) {
+            try {
+                const parsedList = JSON.parse(local.listBuy); // Parse chuỗi JSON thành mảng
+                setListBuy(Array.isArray(parsedList) ? parsedList : []); // Gán nếu là mảng, nếu không thì gán mảng rỗng
+            } catch (error) {
+                console.error('Error parsing local.listBuy:', error);
+                setListBuy([]); // Nếu lỗi, gán mảng rỗng
+            }
+        } else {
+            setListBuy([]); // Nếu không có dữ liệu, gán mảng rỗng
+        }
+    }, [local.listBuy]);
     return (
         <View className='m-0 p-0 relative'>
             <ScrollView >
@@ -143,7 +164,7 @@ const Order = () => {
                 <View className=' border-b-[1px] border-y-neutral-200 bg-white'>
                     <Text className='text-[16px] mb-3 px-4 pt-4'>Danh sách sản phẩm</Text>
                     <FlatList
-                        data={searchResult}
+                        data={listBuy}
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}

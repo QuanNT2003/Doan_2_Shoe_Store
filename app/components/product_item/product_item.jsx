@@ -8,7 +8,10 @@ import {
     MaterialIcons
 } from "@expo/vector-icons"
 
-// const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const addCommas = (num) => {
+    if (num === null) return;
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 const Product_item = ({ item }) => {
     const router = useRouter()
     const product = item || { name: "N/A", productId: "unknown", images: [] };
@@ -69,7 +72,7 @@ const Product_item = ({ item }) => {
                 {item?.name}
             </Text>
             <View className='flex-row justify-between items-center px-3 my-2'>
-                <Text className='w-[60%] text-[15px] text-red-500'>đ {item?.price}</Text>
+                <Text className='w-[60%] text-[15px] text-red-500'>đ {addCommas(item?.price)}</Text>
                 <TouchableOpacity className='p-2 bg-red-300 rounded-full'>
                     <FontAwesome name='shopping-cart' size={20} color='#dc2626' />
                 </TouchableOpacity>

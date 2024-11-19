@@ -2,7 +2,7 @@ import * as request from '../../utils/request';
 
 export const getAllVersions = async (params) => {
     try {
-        console.log(params)
+        // console.log(params)
         const response = await request.getMethod('api/version/get-all?', {
             params,
             paramsSerializer: (params) => {
@@ -20,7 +20,7 @@ export const getAllVersions = async (params) => {
                     }
                 }).join('&');
 
-                console.log(serializedParams);
+                // console.log(serializedParams);
 
                 return serializedParams;
             },
@@ -75,7 +75,7 @@ export const deleteVersion = async (id) => {
 export const getVersionSize = async (id) => {
     try {
         const res = await request.getMethod('api/version/get-size/' + id);
-        console.log(res);
+        // console.log(res);
         return res;
     } catch (error) {
         return Promise.reject(error);
@@ -85,7 +85,7 @@ export const getVersionSize = async (id) => {
 export const getVersionColor = async (id) => {
     try {
         const res = await request.getMethod('api/version/get-color/' + id);
-        console.log(res);
+        // console.log(res);
         return res;
     } catch (error) {
         return Promise.reject(error);
