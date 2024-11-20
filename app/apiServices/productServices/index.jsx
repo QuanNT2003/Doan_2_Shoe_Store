@@ -68,7 +68,7 @@ export const getRelatedProducts = async (id) => {
 export const getSearch = async (search) => {
     try {
         const res = await request.getMethod('api/product/get-search/' + search);
-        // console.log(res);
+        console.log(res);
         return res;
     } catch (error) {
         return Promise.reject(error);

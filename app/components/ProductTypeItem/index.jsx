@@ -10,7 +10,7 @@ const ProductTypeItem = ({ item }) => {
                 className='h-[160px] w-[100%] mb-2'
             />
             <View className='flex-row justify-center items-center mb-3'>
-                <Text>Giày thể thao</Text>
+                <Text>{item?.name}</Text>
             </View>
         </TouchableOpacity>
     )

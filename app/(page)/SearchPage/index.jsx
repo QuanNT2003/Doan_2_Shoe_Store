@@ -14,15 +14,56 @@ import {
     FontAwesome5,
 } from "@expo/vector-icons"
 import SearchBar from "../../components/SearchBar"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ProductTypeItem from "../../components/ProductTypeItem"
-
-
+import * as ProductServices from '../../apiServices/productServices'
+import * as CategoryServices from '../../apiServices/categoryServices';
 const SearchPage = () => {
     const router = useRouter()
     const [search, setSearch] = useState('')
-    const [searchResult, setSearchResult] = useState([1, 2, 3])
-    const [productType, setProductType] = useState([1, 2, 3, 4, 5, 6])
+    const [searchResult, setSearchResult] = useState([])
+    const [listCategories, setListCategories] = useState([])
+    const [day, setDay] = useState(new Date())
+
+    const onSearch = async (value) => {
+        setSearch(value)
+        if (search !== '') {
+            const response = await ProductServices.getSearch(value)
+
+            if (response) {
+                // console.log(response);
+                // setPending(false);
+                setSearchResult(response.data);
+                setDay(new Date())
+            }
+        }
+    }
+
+    const getCate = async () => {
+        const response = await CategoryServices.getAllCategorys(
+        )
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            // console.log(response.data);
+            setListCategories(response.data);
+        }
+    };
+
+    useEffect(() => {
+        getCate()
+    }, [day]);
     return (
         <View >
             <View className='flex-row bg-white items-center p-1 '>
@@ -38,7 +79,7 @@ const SearchPage = () => {
                     <SearchBar
                         placeholder={'Tìm kiếm sản phẩm '}
                         value={search}
-                        handleChange={setSearch}
+                        handleChange={onSearch}
                         search={() => {
                             router.push({ pathname: "(page)/ProductCollection", params: { search: search } })
                         }}
@@ -56,11 +97,11 @@ const SearchPage = () => {
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <View className='h-[40px] flex-row items-center px-4 border-b-[1px] border-y-neutral-200'>
-                            <Text className='font-medium'>
-                                123
+                        renderItem={({ item }) => <TouchableOpacity className='h-[40px] flex-row items-center px-4 border-b-[1px] border-y-neutral-200'>
+                            <Text className='font-medium text-[12px]'>
+                                {item}
                             </Text>
-                        </View>}
+                        </TouchableOpacity>}
                         nestedScrollEnabled
                         scrollEnabled={false}
                     />
@@ -69,14 +110,14 @@ const SearchPage = () => {
                 <View className='bg-white p-3'>
                     <Text className='font-bold border-b-[1px] border-y-neutral-200 p-2'>Gợi ý tìm kiếm</Text>
                     <FlatList
-                        data={productType}
+                        data={listCategories}
                         className='mx-2'
                         numColumns={2}
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
                         renderItem={({ item }) => <View className='w-[50%] my-1 '>
-                            <ProductTypeItem />
+                            <ProductTypeItem item={item} />
                         </View>}
                         ListFooterComponent={<View className='mb-10'></View>}
                         nestedScrollEnabled
