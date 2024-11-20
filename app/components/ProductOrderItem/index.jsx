@@ -47,7 +47,7 @@ const ProductOrderItem = ({
             <View className='flex-row p-2 m-1'>
                 <View className='w-[25%] m-1'>
                     <Image
-                        source={LogoWithName}
+                        source={item?.product?.images[0]?.url ? { uri: item?.product?.images[0]?.url } : LogoWithName}
                         className='h-[100px] w-[100px] m-0'
                     />
                 </View>

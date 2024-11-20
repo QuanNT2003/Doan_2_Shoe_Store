@@ -27,6 +27,7 @@ import * as UserServices from '../../apiServices/userServices'
 import * as VersionServices from '../../apiServices/versionServices'
 import * as ShoppingCartServices from '../../apiServices/productCartServices'
 import * as asyncStorage from "../../store/asyncStorage"
+import { useIsFocused } from "@react-navigation/native"
 const showToastWithGravity = (msg) => {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
 }
@@ -38,7 +39,7 @@ const addCommas = (num) => {
 const ProductDetail = () => {
     const router = useRouter()
     const { id } = useLocalSearchParams()
-
+    const focus = useIsFocused()
 
     const [loading, setLoading] = useState(false);
     const [obj, setObj] = useState(null);
@@ -234,7 +235,7 @@ const ProductDetail = () => {
         fetchApi();
         // setLoading(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [focus]);
     return (
         <View className='relative'>
             <ScrollView className='mb-5'>

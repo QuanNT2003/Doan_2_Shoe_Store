@@ -14,7 +14,7 @@ export const getAllCarts = async (params) => {
                     }
                 }).join('&');
 
-                console.log(serializedParams);
+                // console.log(serializedParams);
                 return serializedParams;
             },
         });

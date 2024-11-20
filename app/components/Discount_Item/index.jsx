@@ -11,9 +11,9 @@ const addCommas = (num) => {
 const Discount_Item = ({ discount, addToCart }) => {
     const [colect, setColect] = useState(false)
 
-    const onClick = () => {
+    const onClick = async () => {
+        await addToCart(discount)
         setColect(true)
-        // addToCart(discount)
     }
     return (
         <View className='w-[320px] flex-row h-[110px] m-1 border-[1px] border-slate-300 rounded-lg'
@@ -29,25 +29,25 @@ const Discount_Item = ({ discount, addToCart }) => {
                 elevation: 4,
             }}>
             <View className={colect === true ? 'bg-slate-100 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2' :
-                discount.classify === 'sale' ? 'bg-red-500 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2' :
-                    discount.classify === 'ship' ? 'bg-green-500 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2' :
+                discount?.classify === 'sale' ? 'bg-red-500 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2' :
+                    discount?.classify === 'ship' ? 'bg-green-500 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2' :
                         'bg-blue-500 w-[35%] flex flex-col justify-center items-center rounded-lg border-dashed border-e-2'}>
-                <FontAwesome5 name={discount.classify === 'sale' ? 'shopping-cart' :
-                    discount.classify === 'ship' ? 'truck' :
+                <FontAwesome5 name={discount?.classify === 'sale' ? 'shopping-cart' :
+                    discount?.classify === 'ship' ? 'truck' :
                         'money-bill'} size={35} color={colect === true ? '#64748b' : '#ffffff'} />
-                {discount.classify === 'sale' ? <Text className={colect === true ? 'text-slate-500 test-[16px]' : 'text-white test-[16px]'}>sale</Text> :
-                    discount.classify === 'ship' ? <Text className={colect === true ? 'text-slate-500 test-[16px]' : 'text-white test-[16px]'}>ship</Text> :
+                {discount?.classify === 'sale' ? <Text className={colect === true ? 'text-slate-500 test-[16px]' : 'text-white test-[16px]'}>sale</Text> :
+                    discount?.classify === 'ship' ? <Text className={colect === true ? 'text-slate-500 test-[16px]' : 'text-white test-[16px]'}>ship</Text> :
                         <Text className={colect === true ? 'text-slate-500' : 'text-white test-[16px]'}>payment</Text>}
             </View>
             <View className='bg-white w-[65%] flex flex-col p-2 rounded-lg justify-between'>
                 {colect === true && <ImageBackground source={ran_out} className='h-[100%] w-[100%] mt-3 flex items-center justify-center absolute right-0 top-0' />}
                 <View>
-                    {discount.rank === 0 ? <Text className='text-amber-600 font-semibold text-[12px]'>Khách hàng đồng</Text> :
-                        discount.rank === 1 ? <Text className='text-[#C0C0C0] font-semibold text-[12px]'>Khách hàng bạc</Text> :
-                            discount.rank === 2 ? <Text className='text-[#ffd700] font-semibold text-[12px]'>Khách hàng vàng</Text> :
-                                <Text className='text-[#13a7f5] font-semibold text-[12px]'>Khách hàng kim cương</Text>}
+                    {discount?.rank === 0 ? <Text className='text-amber-600 font-bold text-[14px]'>Khách hàng đồng</Text> :
+                        discount?.rank === 1 ? <Text className='text-[#C0C0C0] font-bold text-[14px]'>Khách hàng bạc</Text> :
+                            discount?.rank === 2 ? <Text className='text-[#ffd700] font-bold text-[14px]'>Khách hàng vàng</Text> :
+                                <Text className='text-[#13a7f5] font-bold text-[14px]'>Khách hàng kim cương</Text>}
                     <Text numberOfLines={3} className={colect === true ? 'text-[13px] text-slate-500 ' :
-                        'text-[13px]'}>Từng bừng 11/11, giảm giá 5% tất cả sản phẩm, mua sắm ngay</Text>
+                        'text-[13px]'}>{discount?.name}</Text>
                 </View>
 
                 {colect === false &&
