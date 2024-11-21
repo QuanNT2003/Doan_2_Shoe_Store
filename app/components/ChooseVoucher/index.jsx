@@ -24,6 +24,9 @@ const ChooseVoucher = ({
         setOpenFilter(false)
 
     }
+
+    // console.log('list Voucher', listVoucher);
+
     return (
         <View>
             {
@@ -84,7 +87,7 @@ const ChooseVoucher = ({
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <ChooseVoucherItem discount={item} voucher={voucher} setVoucher={setVoucher} />}
+                        renderItem={({ item }) => <ChooseVoucherItem discountCart={item} voucher={voucher} setVoucher={setVoucher} />}
 
                     />
                     <View className='bg-white absolute w-[100%] h-[50px] bottom-1 flex-row justify-center'>

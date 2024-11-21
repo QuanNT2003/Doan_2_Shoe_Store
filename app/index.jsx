@@ -39,7 +39,7 @@ export default function App() {
 
   return (
     <ScrollView contentContainerStyle={{ height: "100%" }}>
-      <View className='h-full w-full items-center justify-center bg-white'>
+      <View className='h-full w-full items-center justify-center bg-cyan-300 '>
         <Animatable.Image
           animation='bounceIn'
           duration={1000}

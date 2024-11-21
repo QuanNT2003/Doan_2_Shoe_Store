@@ -35,7 +35,7 @@ export const getAllusers = async (params) => {
 export const getUser = async (id) => {
     try {
         const res = await request.getMethod('api/user/get-details/' + id);
-        console.log(res);
+        // console.log(res);
         return res;
     } catch (error) {
         return Promise.reject(error);
@@ -45,7 +45,7 @@ export const getUser = async (id) => {
 export const UpdateUser = async (id, obj) => {
     try {
         const res = await request.putMethod('api/user/update/' + id, obj);
-        console.log(res);
+        // console.log(res);
         return res;
     } catch (error) {
         return Promise.reject(error);

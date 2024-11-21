@@ -154,6 +154,7 @@ const ShoppingCart = () => {
             if (block === true) showToastWithGravity('Số lượng sản phẩm không đủ');
             else {
                 const listFinal = dataChoose.map((item) => ({
+                    id: item._id,
                     quantity: item.quantity,
                     product: item.product,
                     version: item.version,
@@ -163,7 +164,7 @@ const ShoppingCart = () => {
                 }))
 
                 // console.log(dataChoose);
-                router.push({ pathname: "(page)/Order", params: { listBuy: JSON.stringify(listFinal) } })
+                router.push({ pathname: "(page)/Order", params: { listBuy: JSON.stringify(listFinal), shoppingCart: true } })
                 // setOpenModal(true)
             }
         }

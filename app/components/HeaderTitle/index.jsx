@@ -7,7 +7,7 @@ import { useRouter } from "expo-router"
 const HeaderTitle = ({ title }) => {
     const router = useRouter()
     return (
-        <View className='flex-row bg-transparent items-center p-1 h-[50px] '>
+        <View className='flex-row bg-cyan-300 items-center p-2 h-[50px] '>
             <TouchableOpacity onPress={() => {
                 router.back()
             }} className='w-[10%] flex-row justify-center items-center'>

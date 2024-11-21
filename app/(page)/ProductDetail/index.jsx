@@ -165,7 +165,7 @@ const ProductDetail = () => {
 
         // console.log(listBuy);
         // console.log(listBuy.length)
-        router.push({ pathname: "(page)/Order", params: { listBuy: JSON.stringify(listBuy) } })
+        router.push({ pathname: "(page)/Order", params: { listBuy: JSON.stringify(listBuy), shoppingCart: false } })
     }
     const confirm = async () => {
         const login = await asyncStorage.getIsLogin()

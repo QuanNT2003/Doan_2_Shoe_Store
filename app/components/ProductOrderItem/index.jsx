@@ -29,8 +29,11 @@ const ProductOrderItem = ({
     }
 
     const set = (discount) => {
-        setVoucher(discount, item.id)
+        setVoucher(discount, item.product._id)
     }
+
+    // console.log('voucher sale', item);
+
     return (
         <View className=' bg-white border-solid border-b-[1px] pb-3 border-y-neutral-200 rounded'
             style={{
@@ -60,7 +63,7 @@ const ProductOrderItem = ({
                         <Text className='text-[12px]'>Size : {item?.version?.size?.name} - Màu sắc : {item?.version?.color?.name}</Text>
                     </View>
                     <View className='flex-row justify-between items-center'>
-                        <Text className='text-[12px]'>đ <Text className='text-[16px]'>{addCommas(item?.product?.price)}</Text></Text>
+                        <Text className='text-[12px]'>đ <Text className='text-[16px]'>{addCommas(item?.product?.price - item?.product?.price * item?.product?.discount / 100)}</Text></Text>
                         <Text> x {item?.quantity}</Text>
                     </View>
                 </View>
@@ -81,7 +84,7 @@ const ProductOrderItem = ({
                 ) : (<View></View>)
             }
             {
-                id === item.id ? (
+                id === item.product._id ? (
                     <View className='flex-row justify-between px-3 h-[50px] border-y-neutral-200 border-y-[1px] items-center'>
                         <TouchableOpacity className='flex-row items-center' onPress={() => setOpenFilter(true)}>
                             <MaterialCommunityIcons name='sale' size={20} color='#dc2626' solid />
@@ -118,7 +121,7 @@ const ProductOrderItem = ({
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <ChooseVoucherItem discount={item} voucher={voucher} setVoucher={set} />}
+                        renderItem={({ item }) => <ChooseVoucherItem discountCart={item} voucher={voucher} setVoucher={set} />}
 
                     />
                     <View className='bg-white absolute w-[100%] h-[50px] bottom-1 flex-row justify-center'>

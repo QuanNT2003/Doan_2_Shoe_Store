@@ -14,7 +14,7 @@ export const getAllProducts = async (params) => {
                     }
                     if (key === 'classify' || key === 'brand' || key === 'category') {
                         let string = ''
-                        for (let item of params[key]) string += key + '=' + item.value + '&';
+                        for (let item of params[key]) string += key + '=' + item + '&';
                         return string
                     }
                     if (key === 'price') {
@@ -24,7 +24,7 @@ export const getAllProducts = async (params) => {
                     }
                 }).join('&');
 
-                // console.log(serializedParams);
+                console.log(serializedParams);
                 return serializedParams;
             },
         });

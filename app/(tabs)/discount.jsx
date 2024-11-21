@@ -24,46 +24,6 @@ const showToastWithGravity = (msg) => {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
 }
 function discount() {
-    const discount = [{
-        name: "Giảm giá tháng 6",
-        discountId: "ds00000008",
-        note: "",
-        typeDiscount: true,
-        classify: "payment",
-        apply: 700000,
-        value: 30,
-        status: true,
-        startDay: "2024-06-01T00:00:00.000Z",
-        endDay: "2024-06-30T00:00:00.000Z",
-    },
-    {
-        name: "Giảm giá tháng 6",
-        discountId: "ds00000008",
-        note: "",
-        typeDiscount: true,
-        classify: "ship",
-        apply: 700000,
-        value: 30,
-        status: true,
-        startDay: "2024-06-01T00:00:00.000Z",
-        endDay: "2024-06-30T00:00:00.000Z",
-    },
-    {
-        name: "Giảm giá tháng 6",
-        discountId: "ds00000008",
-        note: "",
-        typeDiscount: true,
-        classify: "sale",
-        apply: 700000,
-        value: 30,
-        status: true,
-        startDay: "2024-06-01T00:00:00.000Z",
-        endDay: "2024-06-30T00:00:00.000Z",
-    },
-    ]
-    const listItem = [
-        { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }
-    ]
 
     const [saleVoucher, setSale] = useState([])
     const [shipVoucher, setShip] = useState([])

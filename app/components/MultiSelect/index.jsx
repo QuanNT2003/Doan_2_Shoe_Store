@@ -9,7 +9,7 @@ const MultiSelectComp = ({ title, items, selectedItems, setSelectedItems, single
             <Text className='py-2'>{title}</Text>
             <MultiSelect
                 items={items}
-                uniqueKey="id"
+                uniqueKey="value"
                 single={single}
                 onSelectedItemsChange={setSelectedItems}
                 selectedItems={selectedItems}
@@ -21,7 +21,7 @@ const MultiSelectComp = ({ title, items, selectedItems, setSelectedItems, single
                 selectedItemTextColor="#CCC"
                 selectedItemIconColor="#CCC"
                 itemTextColor="#000"
-                displayKey="name"
+                displayKey="label"
                 searchIcon={false}
                 styleInputGroup={{
                     padding: 10,

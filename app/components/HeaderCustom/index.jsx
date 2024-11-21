@@ -7,7 +7,7 @@ import { useRouter } from "expo-router"
 const HeaderCustom = ({ backButton }) => {
     const router = useRouter()
     return (
-        <View className='flex-row bg-transparent items-center p-1'>
+        <View className='flex-row bg-cyan-300 items-center p-2'>
             {
                 backButton && <TouchableOpacity onPress={() => {
                     router.back()
