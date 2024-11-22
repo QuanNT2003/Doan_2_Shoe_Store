@@ -43,7 +43,7 @@ export const CreateOrder = async (obj) => {
 export const getOrder = async (id) => {
     try {
         const res = await request.getMethod('api/order/get-details/' + id);
-        console.log(res);
+        // console.log(res);
         return res;
     } catch (error) {
         return Promise.reject(error);

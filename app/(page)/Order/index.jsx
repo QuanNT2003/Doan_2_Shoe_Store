@@ -282,6 +282,7 @@ const Order = () => {
 
                     showToastWithGravity('Đã đặt hàng');
                     // navigate('/order_colection/detail/' + result.data.orderId);
+                    router.push({ pathname: "(page)/OrderDetail", params: { id: result.data.orderId } })
                 }
 
 

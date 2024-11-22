@@ -31,7 +31,7 @@ const OrderItem = ({ item }) => {
                 elevation: 4,
             }}
             onPress={() => {
-                router.push({ pathname: "(page)/OrderDetail", params: { id: item.id } })
+                router.push({ pathname: "(page)/OrderDetail", params: { id: item?.orderId } })
             }}
         >
             <View className='p-3 flex-row justify-between items-center'>
