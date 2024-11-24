@@ -226,7 +226,7 @@ const UserDetail = () => {
 
                 <View className='h-full bg-white relative'>
                     <View className='flex flex-row justify-between items-center bg-slate-200 p-4'>
-                        <Text className='text-lg font-semibold '>Chọn mẫu mã</Text>
+                        <Text className='text-lg font-semibold '>Cập nhật thông tin cá nhân</Text>
                         <TouchableOpacity onPress={() => setCloseFilter()}>
                             <FontAwesome5 name='times-circle' size={30} className='mr-5' />
                         </TouchableOpacity>
@@ -246,7 +246,7 @@ const UserDetail = () => {
                                                     <TouchableOpacity className='flex justify-center items-center h-[120px] w-[120px] border-dashed border-black border-[1px]' onPress={() => chooseImage()}>
                                                         <Text>Chọn hình ảnh</Text>
                                                     </TouchableOpacity> :
-                                                    <View className='w-[120px] h-[120px] mr-2 relative felx justify-center items-center'>
+                                                    <View className='w-[120px] h-[120px] mr-2 relative flex justify-center items-center'>
                                                         <TouchableOpacity className='top-0 right-0 absolute z-50' onPress={() => handleRemoveImage()}>
                                                             <FontAwesome5 name='times-circle' size={20} className='mr-5' color="red" />
                                                         </TouchableOpacity>
@@ -352,7 +352,7 @@ const UserDetail = () => {
 
                 <View className='h-full bg-white relative'>
                     <View className='flex flex-row justify-between items-center bg-slate-200 p-4'>
-                        <Text className='text-lg font-semibold '>Chọn mẫu mã</Text>
+                        <Text className='text-lg font-semibold '>Cập nhật mật khẩu</Text>
                         <TouchableOpacity onPress={() => setCloseResetPass()}>
                             <FontAwesome5 name='times-circle' size={30} className='mr-5' />
                         </TouchableOpacity>

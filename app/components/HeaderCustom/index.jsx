@@ -6,6 +6,7 @@ import {
 import { useRouter } from "expo-router"
 const HeaderCustom = ({ backButton }) => {
     const router = useRouter()
+
     return (
         <View className='flex-row bg-cyan-300 items-center p-2'>
             {
@@ -33,7 +34,10 @@ const HeaderCustom = ({ backButton }) => {
             }}>
                 <FontAwesome5 name='cart-plus' size={25} className='mr-3' />
             </TouchableOpacity>
-            <TouchableOpacity className='w-[10%] justify-center flex-row'>
+            <TouchableOpacity className='w-[10%] justify-center flex-row' onPress={() => {
+                router.push({ pathname: "(page)/ChatPage" })
+                // openChat()
+            }}>
                 <FontAwesome5 name='comment-dots' size={25} className='mr-3' />
             </TouchableOpacity>
 

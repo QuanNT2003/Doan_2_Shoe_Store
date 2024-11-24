@@ -36,7 +36,23 @@ export const CreateReturn = async (obj) => {
 
         return res;
     } catch (error) {
+        if (error.response) {
+            // Máy chủ phản hồi nhưng với mã trạng thái lỗi (4xx, 5xx)
+            console.error("Response error:", {
+                status: error.response.status,
+                data: error.response.data,
+                headers: error.response.headers,
+            });
+        } else if (error.request) {
+            // Yêu cầu đã được gửi nhưng không nhận được phản hồi
+            console.error("Request error:", error.request);
+        } else {
+            // Lỗi khác (cấu hình sai, không thể gửi yêu cầu, ...)
+            console.error("Unexpected error:", error.message);
+        }
+
         return Promise.reject(error);
+
     }
 }
 

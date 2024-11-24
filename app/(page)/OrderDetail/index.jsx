@@ -179,7 +179,7 @@ const OrderDetail = () => {
                                                 </TouchableOpacity>
                                             }
                                             {
-                                                (item?.exchange_return === false && now.diff(obj?.updatedAt, 'days') < 7) && <TouchableOpacity className='border-[1px] border-red-400 w-[40%] h-[40px] justify-center items-center rounded-md' onPress={() => router.push({ pathname: "(page)/Return" })}>
+                                                (item?.exchange_return === false && now.diff(obj?.updatedAt, 'days') < 7) && <TouchableOpacity className='border-[1px] border-red-400 w-[40%] h-[40px] justify-center items-center rounded-md' onPress={() => router.push({ pathname: "(page)/Return", params: { objOrder: JSON.stringify(obj), item: JSON.stringify(item) } })}>
                                                     <Text className='font-bold text-red-600'>Hoàn đổi hàng</Text>
                                                 </TouchableOpacity>
                                             }

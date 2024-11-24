@@ -152,6 +152,17 @@ const PageLayout = () => {
                     headerBackVisible: true,
                 }}
             />
+
+            <Stack.Screen
+                name="ChatPage/index"
+                options={{
+                    headerShown: false,
+                    // header: () => (
+                    //     <HeaderTitle title={'Chat'} />
+                    // ),
+                    // headerBackVisible: true,
+                }}
+            />
         </Stack>
     )
 }
