@@ -22,93 +22,94 @@ const TabIcon = ({ icon, color, name, focused }) => {
     )
 }
 
-
 const TabsLayout = () => {
     return (
-        <Tabs
-            screenOptions={{
-                tabBarShowLabel: false,
-                tabBarActiveTintColor: "#3A57E8",
-                tabBarInactiveTintColor: "#CDCDE0",
-                tabBarStyle: {
-                    position: "absolute",
-                    backgroundColor: "#FFFFFF",
-                    borderColor: "transparent",
-                    height: 60,
-                    borderRadius: 100,
-                    margin: 15,
-                },
-            }}
-        >
-            {/* <Tabs.Screen name='report' options={{ href: null }} />
+        <View className='flex-1 relative'>
+            <Tabs
+                screenOptions={{
+                    tabBarShowLabel: false,
+                    tabBarActiveTintColor: "#3A57E8",
+                    tabBarInactiveTintColor: "#CDCDE0",
+                    tabBarStyle: {
+                        position: "absolute",
+                        backgroundColor: "#FFFFFF",
+                        borderColor: "transparent",
+                        height: 60,
+                        borderRadius: 100,
+                        margin: 15,
+                    },
+                }}
+            >
+                {/* <Tabs.Screen name='report' options={{ href: null }} />
         <Tabs.Screen name='pagemana' options={{ href: null }} /> */}
 
-            <Tabs.Screen
-                name='home'
-                options={{
-                    title: "Home",
-                    header: () => (<HeaderCustom />),
-                    tabBarIcon: ({ color, focused }) => (
-                        <TabIcon
-                            icon={<Entypo name='home' size={24} color={color} />}
-                            color={color}
-                            name='Trang chủ'
-                            focused={focused}
-                        />
-                    ),
-                }}
-            />
+                <Tabs.Screen
+                    name='home'
+                    options={{
+                        title: "Home",
+                        header: () => (<HeaderCustom />),
+                        tabBarIcon: ({ color, focused }) => (
+                            <TabIcon
+                                icon={<Entypo name='home' size={24} color={color} />}
+                                color={color}
+                                name='Trang chủ'
+                                focused={focused}
+                            />
+                        ),
+                    }}
+                />
 
-            <Tabs.Screen
-                name='discount'
-                options={{
-                    title: "discount",
-                    header: () => (<HeaderCustom />),
-                    tabBarIcon: ({ color, focused }) => (
-                        <TabIcon
-                            icon={<FontAwesome name='percent' size={24} color={color} />}
-                            color={color}
-                            name='Tìm kiếm'
-                            focused={focused}
-                        />
-                    ),
-                }}
-            />
+                <Tabs.Screen
+                    name='discount'
+                    options={{
+                        title: "discount",
+                        header: () => (<HeaderCustom />),
+                        tabBarIcon: ({ color, focused }) => (
+                            <TabIcon
+                                icon={<FontAwesome name='percent' size={24} color={color} />}
+                                color={color}
+                                name='Tìm kiếm'
+                                focused={focused}
+                            />
+                        ),
+                    }}
+                />
 
-            <Tabs.Screen
-                name='notification'
-                options={{
-                    title: "Notifications",
-                    header: () => (<HeaderCustom />),
-                    tabBarIcon: ({ color, focused }) => (
-                        <TabIcon
-                            icon={<Ionicons name='notifications' size={24} color={color} />}
-                            color={color}
-                            name='Thông báo'
-                            focused={focused}
-                        />
-                    ),
-                }}
-            />
+                <Tabs.Screen
+                    name='notification'
+                    options={{
+                        title: "Notifications",
+                        header: () => (<HeaderCustom />),
+                        tabBarIcon: ({ color, focused }) => (
+                            <TabIcon
+                                icon={<Ionicons name='notifications' size={24} color={color} />}
+                                color={color}
+                                name='Thông báo'
+                                focused={focused}
+                            />
+                        ),
+                    }}
+                />
 
-            <Tabs.Screen
-                name='profile'
-                options={{
-                    title: "Profile",
-                    header: () => (<HeaderCustom />),
-                    tabBarIcon: ({ color, focused }) => (
-                        <TabIcon
-                            icon={
-                                <MaterialIcons name='account-circle' size={24} color={color} />
-                            }
-                            color={color}
-                            name='Tài khoản'
-                            focused={focused}
-                        />
-                    ),
-                }}
-            />
-        </Tabs>
+                <Tabs.Screen
+                    name='profile'
+                    options={{
+                        title: "Profile",
+                        header: () => (<HeaderCustom />),
+                        tabBarIcon: ({ color, focused }) => (
+                            <TabIcon
+                                icon={
+                                    <MaterialIcons name='account-circle' size={24} color={color} />
+                                }
+                                color={color}
+                                name='Tài khoản'
+                                focused={focused}
+                            />
+                        ),
+                    }}
+                />
+            </Tabs>
+        </View>
     )
 }
 

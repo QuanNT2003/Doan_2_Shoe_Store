@@ -280,7 +280,7 @@ const ProductCollection = () => {
         <View >
             <FlatList
                 data={rows}
-                className='p-3 bg-white'
+                className='p-3 bg-white h-full'
                 numColumns={2}
                 scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
@@ -297,6 +297,10 @@ const ProductCollection = () => {
                 </View>}
                 ListFooterComponent={<View className='mb-10'>
 
+                </View>}
+                ListEmptyComponent={<View className='flex-row justify-center items-center'>
+                    <Text>Không có sản phẩm phù hợp
+                    </Text>
                 </View>}
                 nestedScrollEnabled
             />

@@ -107,7 +107,7 @@ function discount() {
                 getList(
                     await createObjectQuery(
                         1,
-                        9,
+                        14,
                         'discount',
                         'desc',
 
@@ -123,26 +123,32 @@ function discount() {
 
 
     const addPromotionCart = async (item) => {
+        const login = await asyncStorage.getIsLogin()
+        if (login === 'true') {
+            const id = await asyncStorage.getIdAsync()
+            const userResult = await UserServices.getUser(id)
+            const promotionCart = {
+                user: userResult.data,
+                discount: item
+            }
+            const fetchApi = async () => {
+                const result = await PromotionsCartServices.CreatePromotionCart(promotionCart)
+                    .catch((err) => {
+                        console.log(err);
+                    });
 
-        const id = await asyncStorage.getIdAsync()
-        const userResult = await UserServices.getUser(id)
-        const promotionCart = {
-            user: userResult.data,
-            discount: item
-        }
-        const fetchApi = async () => {
-            const result = await PromotionsCartServices.CreatePromotionCart(promotionCart)
-                .catch((err) => {
-                    console.log(err);
-                });
+                if (result) {
+                    console.log(result);
+                }
 
-            if (result) {
-                console.log(result);
             }
 
+            fetchApi();
+        }
+        else {
+            showToastWithGravity('Bạn chưa đăng nhập')
         }
 
-        fetchApi();
 
     }
     return (

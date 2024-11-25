@@ -62,12 +62,12 @@ function profile() {
                         className='h-[100px] w-[100px] m-3 rounded-full'
                     />
                     <View>
-                        <Text className='text-[18px] font-bold mb-2'>{user?.name}</Text>
+                        <Text className='text-[18px] font-bold mb-2 text-white'>{user?.name}</Text>
                         {
-                            user?.rank === 0 ? <Text>Hội viên đồng</Text> :
-                                user?.rank === 1 ? <Text>Hội viên bạc</Text> :
-                                    user?.rank === 2 ? <Text>Hội viên vàng</Text> :
-                                        <Text>Hội viên kim cương</Text>
+                            user?.rank === 0 ? <Text className=' text-white'>Khách hàng đồng</Text> :
+                                user?.rank === 1 ? <Text className=' text-white'>Khách hàng bạc</Text> :
+                                    user?.rank === 2 ? <Text className='text-white'>Khách hàng vàng</Text> :
+                                        <Text className='text-white'>Khách hàng kim cương</Text>
                         }
 
                     </View>

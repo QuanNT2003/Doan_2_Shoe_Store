@@ -97,8 +97,10 @@ const SearchPage = () => {
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <TouchableOpacity className='h-[40px] flex-row items-center px-4 border-b-[1px] border-y-neutral-200'>
-                            <Text className='font-medium text-[12px]'>
+                        renderItem={({ item }) => <TouchableOpacity className='h-[40px] flex-row items-center px-4 border-b-[1px] border-y-neutral-200' onPress={() => {
+                            router.push({ pathname: "(page)/ProductCollection", params: { search: item } })
+                        }}>
+                            <Text className='font-normal text-[13px]'>
                                 {item}
                             </Text>
                         </TouchableOpacity>}

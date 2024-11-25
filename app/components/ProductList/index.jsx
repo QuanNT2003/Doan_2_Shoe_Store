@@ -4,7 +4,9 @@ import {
     Text
 } from "react-native";
 import Product_item from "../product_item/product_item";
-
+import {
+    Dialog,
+} from '@rneui/themed';
 
 const Product_List = ({ list, title }) => {
     return (
@@ -20,6 +22,10 @@ const Product_List = ({ list, title }) => {
                 onEndReachedThreshold={0.5}
                 renderItem={({ item }) => <Product_item item={item} />}
                 ListFooterComponent={<View className='mr-96'></View>}
+                ListEmptyComponent={
+                    <Dialog isVisible={true} >
+                        <Dialog.Loading />
+                    </Dialog>}
 
             />
         </View>

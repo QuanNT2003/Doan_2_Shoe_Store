@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Image, ImageBackground, Text, TouchableOpacity, View, } from "react-native"
+import { Image, ImageBackground, Text, TouchableOpacity, View, ToastAndroid } from "react-native"
 import ran_out from '../../../assets/images/ran_out.png'
 import {
     FontAwesome5,
 } from "@expo/vector-icons"
+import * as asyncStorage from "../../store/asyncStorage"
+const showToastWithGravity = (msg) => {
+    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+}
 const addCommas = (num) => {
     if (num === null) return;
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -12,8 +16,15 @@ const Discount_Item = ({ discount, addToCart }) => {
     const [colect, setColect] = useState(false)
 
     const onClick = async () => {
-        await addToCart(discount)
-        setColect(true)
+        const login = await asyncStorage.getIsLogin()
+        if (login === 'true') {
+            await addToCart(discount)
+            setColect(true)
+        }
+        else {
+            showToastWithGravity('Bạn chưa đăng nhập')
+        }
+
     }
     return (
         <View className='w-[320px] flex-row h-[110px] m-1 border-[1px] border-slate-300 rounded-lg'

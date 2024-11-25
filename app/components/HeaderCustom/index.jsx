@@ -1,9 +1,13 @@
-import { TouchableOpacity, View, Text } from "react-native"
+import { TouchableOpacity, View, Text, ToastAndroid } from "react-native"
 import {
     FontAwesome5,
     FontAwesome
 } from "@expo/vector-icons"
 import { useRouter } from "expo-router"
+import * as asyncStorage from "../../store/asyncStorage"
+const showToastWithGravity = (msg) => {
+    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+}
 const HeaderCustom = ({ backButton }) => {
     const router = useRouter()
 
@@ -29,8 +33,15 @@ const HeaderCustom = ({ backButton }) => {
 
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity className='w-[10%] justify-center flex-row' onPress={() => {
-                router.push({ pathname: "(page)/ShoppingCart" })
+            <TouchableOpacity className='w-[10%] justify-center flex-row' onPress={async () => {
+                const login = await asyncStorage.getIsLogin()
+                if (login === 'true') {
+                    router.push({ pathname: "(page)/ShoppingCart" })
+                }
+                else {
+                    showToastWithGravity('Bạn chưa đăng nhập')
+                }
+
             }}>
                 <FontAwesome5 name='cart-plus' size={25} className='mr-3' />
             </TouchableOpacity>

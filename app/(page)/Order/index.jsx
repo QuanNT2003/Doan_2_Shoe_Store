@@ -17,6 +17,7 @@ import { useEffect, useState } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import InputCustom from "../../components/InputCustom"
 import ProductOrderItem from "../../components/ProductOrderItem"
+import ModalLoading from "../../components/ModalLoading"
 import { CheckBox } from '@rneui/themed';
 import ChooseVoucher from "../../components/ChooseVoucher"
 import * as PromotionCartServices from '../../apiServices/promotionCartServices'
@@ -40,7 +41,7 @@ const Order = () => {
     // console.log('list buy :', listBuy);
     const local = useLocalSearchParams()
     const [listBuy, setListBuy] = useState([])
-
+    const [loading, setLoading] = useState(false)
     //USER
     const [user, setUser] = useState()
     // NAME
@@ -238,7 +239,7 @@ const Order = () => {
         }
         else {
             const fetchApi = async () => {
-                // setLoading(true)
+                setLoading(true)
                 const obj = {
                     user: user,
                     note: '',
@@ -271,12 +272,12 @@ const Order = () => {
                 const result = await OrderServices.CreateOrder(obj)
                     .catch((error) => {
                         console.log(error);
-                        // setLoading(false);
-                        // toastContext.notify('error', 'Có lỗi xảy ra');
+                        setLoading(false);
+                        showToastWithGravity('Có lỗi xảy ra');
                     });
 
                 if (result) {
-                    // setLoading(false);
+                    setLoading(false);
                     console.log(result)
                     if (local.shoppingCart === 'true') deleteList();
 
@@ -415,12 +416,14 @@ const Order = () => {
                     </View>
                 </View>
             </ScrollView>
+            <ModalLoading visible={loading} />
             <View className='bg-white absolute w-[100%] h-[50px] bottom-0 flex-row justify-center'>
 
                 <TouchableOpacity className='bg-blue-600 w-[80%] h-[100%] justify-center items-center' onPress={() => submit()}>
                     <Text className='font-bold text-white text-[16px]'>Đặt hàng</Text>
                 </TouchableOpacity>
             </View>
+
         </View>
 
     )

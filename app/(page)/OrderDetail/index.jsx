@@ -20,7 +20,8 @@ import * as OrderServices from '../../apiServices/orderServices'
 import { format } from 'date-fns';
 import LogoWithName from "../../../assets/images/sample.jpg"
 import moment from 'moment';
-
+import { useIsFocused } from "@react-navigation/native"
+import ModalLoading from "../../components/ModalLoading"
 const showToastWithGravity = (msg) => {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
 }
@@ -32,17 +33,16 @@ const OrderDetail = () => {
     const router = useRouter()
     const { id } = useLocalSearchParams()
     const now = moment()
+    const focus = useIsFocused()
+    const [loading, setLoading] = useState(false)
+
 
     const [obj, setObj] = useState(null);
     const [day, setDay] = useState(new Date())
-    const listItem = [
-        { id: 1 }, { id: 2 }
-    ]
-
 
     useEffect(() => {
         const fetchApi = async () => {
-            // setLoading(true)
+            setLoading(true)
             console.log('id', id);
 
             const result = await OrderServices.getOrder(id)
@@ -59,12 +59,12 @@ const OrderDetail = () => {
         }
 
         fetchApi();
-        // setLoading(false)
+        setLoading(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [day]);
+    }, [focus]);
 
     const cancel = () => {
-        // setLoading(true);
+        setLoading(true);
         const fetchApi = async () => {
             const newObj = {
                 ...obj,
@@ -75,12 +75,12 @@ const OrderDetail = () => {
             const result = await OrderServices.UpdateOrder(obj.orderId, newObj)
                 .catch((err) => {
                     // console.log(err);
-                    // setLoading(false);
+                    setLoading(false);
                     showToastWithGravity('Có lỗi xảy ra');
                 });
 
             if (result) {
-                // setLoading(false);
+                setLoading(false);
                 setDay(new Date());
                 showToastWithGravity('Đã hủy đơn thành công');
             }
@@ -260,7 +260,7 @@ const OrderDetail = () => {
                     </TouchableOpacity>
                 }
             </View>
-
+            <ModalLoading visible={loading} />
         </View >
     )
 }

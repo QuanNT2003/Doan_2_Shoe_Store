@@ -13,20 +13,68 @@ import {
 import {
     FontAwesome5,
 } from "@expo/vector-icons"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import { Tab, TabView } from '@rneui/themed';
-import OrderItem from "../../components/OrderItem";
 import ReturnItem from "../../components/ReturnItem";
+import * as ReturnServices from '../../apiServices/returnServices'
+import * as asyncStorage from "../../store/asyncStorage"
+import * as UserServices from '../../apiServices/userServices';
+const addCommas = (num) => {
+    if (num === null) return;
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 
+const showToastWithGravity = (msg) => {
+    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+}
 const ReturnPage = () => {
     const router = useRouter()
     const { position } = useLocalSearchParams()
 
     const [index, setIndex] = useState(0);
-    const [searchResult, setSearchResult] = useState([
-        { id: 1 }, { id: 2 }
-    ])
+
+    const [listReceving, setListReceving] = useState([])
+    const [listReceved, setListReceved] = useState([])
+    const [listDelivering, setListDelivering] = useState([])
+    const [listDelivered, setListDelivered] = useState([])
+    const [listCanceled, setListCanceled] = useState([])
+    useEffect(() => {
+        if (asyncStorage.getIsLogin() === 'false') {
+            showToastWithGravity("Bạn chưa đăng nhập")
+        }
+        const fetch = async () => {
+            const id = await asyncStorage.getIdAsync()
+            const userResult = await UserServices.getUser(id)
+            let users = []
+            users.push({ value: userResult.data._id })
+            const response = await ReturnServices.getAllReturn({
+                user: users
+            })
+                .catch((error) => {
+
+
+                    if (error?.response?.status === 404) {
+                        // setData([]);
+                    } else {
+                        showToastWithGravity('Có lỗi xảy ra');
+                    }
+                });
+
+            if (response) {
+                // setData(response.data);
+                // console.log(response.data);
+                setListReceving(response.data.filter((item) => item?.status === 'receiving'));
+                setListReceved(response.data.filter((item) => item?.status === 'received'));
+                setListDelivering(response.data.filter((item) => item?.status === 'delivering'));
+                setListDelivered(response.data.filter((item) => item?.status === 'delivered'));
+                setListCanceled(response.data.filter((item) => item?.status === 'cancelled'));
+            }
+        }
+
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         < >
             <Tab
@@ -91,7 +139,7 @@ const ReturnPage = () => {
             <TabView value={index} onChange={setIndex} animationType="spring">
                 <TabView.Item >
                     <FlatList
-                        data={searchResult}
+                        data={listReceving}
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
@@ -100,16 +148,44 @@ const ReturnPage = () => {
                     />
                 </TabView.Item>
                 <TabView.Item >
-                    <Text>Đơn hàng đã tiếp nhận</Text>
+                    <FlatList
+                        data={listReceved}
+                        scrollEventThrottle={16}
+                        showsVerticalScrollIndicator={false}
+                        onEndReachedThreshold={0.5}
+                        renderItem={({ item }) => <ReturnItem item={item} />}
+
+                    />
                 </TabView.Item>
                 <TabView.Item >
-                    <Text>Đơn hàng đang vận chuyển</Text>
+                    <FlatList
+                        data={listDelivering}
+                        scrollEventThrottle={16}
+                        showsVerticalScrollIndicator={false}
+                        onEndReachedThreshold={0.5}
+                        renderItem={({ item }) => <ReturnItem item={item} />}
+
+                    />
                 </TabView.Item>
                 <TabView.Item >
-                    <Text>Đơn hàng đã giao</Text>
+                    <FlatList
+                        data={listDelivered}
+                        scrollEventThrottle={16}
+                        showsVerticalScrollIndicator={false}
+                        onEndReachedThreshold={0.5}
+                        renderItem={({ item }) => <ReturnItem item={item} />}
+
+                    />
                 </TabView.Item>
                 <TabView.Item >
-                    <Text>Đơn hàng đã hủy</Text>
+                    <FlatList
+                        data={listCanceled}
+                        scrollEventThrottle={16}
+                        showsVerticalScrollIndicator={false}
+                        onEndReachedThreshold={0.5}
+                        renderItem={({ item }) => <ReturnItem item={item} />}
+
+                    />
                 </TabView.Item>
             </TabView>
         </>

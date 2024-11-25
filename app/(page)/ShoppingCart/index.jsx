@@ -183,6 +183,10 @@ const ShoppingCart = () => {
                 renderItem={({ item }) => <ShoppingCartItem item={item} addArray={AddArray} deleteArray={DeleteArray} />}
                 nestedScrollEnabled
                 ListFooterComponent={<View className='mb-10'></View>}
+                ListEmptyComponent={<View className='mt-5 flex-row justify-center items-center'>
+                    <Text>Chưa có sản phẩm trong giỏ
+                    </Text>
+                </View>}
             />
 
             <View className='bg-white absolute w-[100%] h-[60px] bottom-0 flex-row'>

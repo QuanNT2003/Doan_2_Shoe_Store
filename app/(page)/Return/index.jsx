@@ -24,6 +24,7 @@ import * as ReturnServices from '../../apiServices/returnServices'
 import * as OrderServices from '../../apiServices/orderServices'
 import * as UserServices from '../../apiServices/userServices';
 import * as asyncStorage from "../../store/asyncStorage"
+import ModalLoading from "../../components/ModalLoading"
 const showToastWithGravity = (msg) => {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
 }
@@ -37,6 +38,7 @@ const Return = () => {
     const [obj, setObj] = useState('');
     const [order, setOrder] = useState('')
     const [day, setDay] = useState(new Date());
+    const [loading, setLoading] = useState(false)
 
     const [openFilter, setOpenFilter] = useState(false)
     const setCloseFilter = () => {
@@ -202,9 +204,13 @@ const Return = () => {
         setObj(newObj)
 
         const fetchApi = async () => {
-            //setLoading(true)
+            setLoading(true)
             const returnObj = {
                 user: user,
+                note: '',
+                address: address,
+                phone: phone,
+                email: email,
                 returnItem: {
                     product: obj.product,
                     version: obj.version,
@@ -222,20 +228,22 @@ const Return = () => {
             const result = await ReturnServices.CreateReturn(returnObj)
                 .catch((error) => {
                     console.log(error);
-                    //setLoading(false);
+                    setLoading(false);
                     showToastWithGravity('Có lỗi xảy ra');
                 });
 
             if (result) {
-                //setLoading(false);
-                console.log(result)
+                setLoading(false);
+                // console.log(result)
                 showToastWithGravity('Đã tạo đơn trả hàng');
+                const resultUpdate = await OrderServices.UpdateOrder(order.orderId, order)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                router.replace({ pathname: "(page)/ReturnDetail", params: { id: result.data.returnId } })
             }
 
-            const resultUpdate = await OrderServices.UpdateOrder(order.orderId, order)
-                .catch((err) => {
-                    console.log(err);
-                });
+
         }
 
         fetchApi();
@@ -524,7 +532,7 @@ const Return = () => {
 
                 </View>
             }
-
+            <ModalLoading visible={loading} />
         </View>
 
     )
