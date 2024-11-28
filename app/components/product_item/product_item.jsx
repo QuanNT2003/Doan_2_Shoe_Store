@@ -68,7 +68,7 @@ const Product_item = ({ item }) => {
 
                 </View>
             </View>
-            <Text className='px-3 text-[13px] my-1' numberOfLines={2}>
+            <Text className='px-3 text-[13px] my-1 h-[30px]' numberOfLines={2}>
                 {item?.name}
             </Text>
             <View className='flex-row justify-between items-center px-3 my-2'>

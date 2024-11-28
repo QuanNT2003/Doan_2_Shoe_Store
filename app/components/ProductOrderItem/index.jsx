@@ -117,7 +117,7 @@ const ProductOrderItem = ({
                     </View>
 
                     <FlatList
-                        data={listVoucher}
+                        data={listVoucher.filter(voucher => voucher.discount.apply < (item.product.price - (item.product.discount / 100) * item.product.price) * item.quantity)}
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
