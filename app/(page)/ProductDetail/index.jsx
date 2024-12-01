@@ -26,6 +26,7 @@ import * as ProductServices from '../../apiServices/productServices'
 import * as UserServices from '../../apiServices/userServices'
 import * as VersionServices from '../../apiServices/versionServices'
 import * as ShoppingCartServices from '../../apiServices/productCartServices'
+import * as CommentServices from '../../apiServices/commentServices'
 import * as asyncStorage from "../../store/asyncStorage"
 import { useIsFocused } from "@react-navigation/native"
 const showToastWithGravity = (msg) => {
@@ -219,15 +220,27 @@ const ProductDetail = () => {
 
             }
 
-            const related = await ProductServices.getRelatedProducts(id)
-                .catch((err) => {
-                    console.log(err);
-                });
+            // const related = await ProductServices.getRelatedProducts(id)
+            //     .catch((err) => {
+            //         console.log(err);
+            //     });
 
-            if (related) {
-                setListRelated(related.data)
+            // if (related) {
+            //     setListRelated(related.data)
 
-            }
+            // }
+
+            getList(
+                await createObjectQuery(
+                    1,
+                    2,
+                    '',
+                    '',
+                    '',
+                    [{ value: id }],
+                    [{ value: true }],
+
+                ));
 
 
         }
@@ -236,6 +249,58 @@ const ProductDetail = () => {
         // setLoading(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [focus]);
+
+    //comment
+    const [pending, setPending] = useState(false);
+    const [rows, setRows] = useState([]);
+
+    const createObjectQuery = async (
+        page,
+        limit,
+        sortBy,
+        orderBy,
+        user,
+        productId,
+        approve,
+        rating
+    ) => {
+
+
+        return {
+            limit,
+            page,
+            ...(orderBy && { orderBy }),
+            ...(sortBy && { sortBy }),
+            ...(user && { user }),
+            ...(productId && { productId }),
+            ...(approve && { approve }),
+            ...(rating && { rating }),
+        };
+
+    }
+
+    const getList = async (obj) => {
+        setPending(true);
+
+        const response = await CommentServices.getAllComment(obj)
+            .catch((error) => {
+                setPending(false);
+
+                if (error?.response?.status === 404) {
+                    setRows([]);
+                } else {
+                    // toastContext.notify('error', 'Có lỗi xảy ra');
+                }
+            });
+
+        if (response) {
+            // console.log(response);
+            setPending(false);
+            setRows(response.data);
+
+
+        }
+    }
     return (
         <View className='relative'>
             <ScrollView className='mb-5'>
@@ -279,12 +344,23 @@ const ProductDetail = () => {
                         </View>
                     </View>
                     <View>
-                        <CommentItem />
-                        <CommentItem />
+                        <FlatList
+                            data={rows}
+                            className='m-3 bg-transparent'
+                            scrollEventThrottle={16}
+                            showsVerticalScrollIndicator={false}
+                            showsHorizontalScrollIndicator={false}
+                            onEndReachedThreshold={0.5}
+                            renderItem={({ item }) => <CommentItem comment={item} />}
+                            ListFooterComponent={<View className='mr-96'></View>}
+                            nestedScrollEnabled
+                            scrollEnabled={false}
+
+                        />
                     </View>
                 </View>
                 <View className='bg-white my-3'>
-                    <Product_List list={listRelated} title={'Sản phẩm tương tự'} />
+                    {/* <Product_List list={listRelated} title={'Sản phẩm tương tự'} /> */}
                 </View>
             </ScrollView>
 

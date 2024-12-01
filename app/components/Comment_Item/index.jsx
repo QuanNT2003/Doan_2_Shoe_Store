@@ -9,18 +9,18 @@ const addCommas = (num) => {
     if (num === null) return;
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
-
+import { format } from 'date-fns';
 const CommentItem = ({ comment }) => {
     return (
         <View className='border-solid border-b-[1px] pb-3 border-y-neutral-200'>
             <View className='flex-row p-2 items-center'>
                 <Image
-                    source={LogoWithName}
+                    source={comment.user?.images[0]?.url ? { uri: comment.user?.images[0]?.url } : LogoWithName}
                     className='h-[50px] w-[50px] m-3 rounded-full'
                 />
                 <View>
-                    <Text className='text-[16px] font-bold'>Ngô Trung Quân</Text>
-                    <Text>20/10/2024 - 15:00</Text>
+                    <Text className='text-[16px] font-bold'>{comment?.user?.name}</Text>
+                    <Text>{format(new Date(comment?.createdAt), 'dd/MM/yyyy - HH:mm')}</Text>
                 </View>
             </View>
             <View className='flex-row items-center pl-4'>
@@ -28,24 +28,20 @@ const CommentItem = ({ comment }) => {
                 <Rating
                     readonly
                     imageSize={14}
-                    startingValue={4}
+                    startingValue={comment?.rating}
                 />
             </View>
             <View className='mt-3 pl-4'>
-                <Text>Shop thân thiện nhắn tin dthw,giao đủ số lượng đã đặt khẩu trang rẻ dầy lắm cảm thấy tốt shipber củng thân thiên</Text>
+                <Text>{comment?.note}</Text>
                 <View className='flex-row'>
-                    <Image
-                        source={LogoWithName}
-                        className='h-[120px] w-[120px] m-1'
-                    />
-                    <Image
-                        source={LogoWithName}
-                        className='h-[120px] w-[120px] m-1'
-                    />
-                    <Image
-                        source={LogoWithName}
-                        className='h-[120px] w-[120px] m-1'
-                    />
+                    {
+                        comment?.images.map((item) => (
+                            <Image
+                                source={item?.url}
+                                className='h-[120px] w-[120px] m-1'
+                            />
+                        ))
+                    }
                 </View>
             </View>
         </View>
