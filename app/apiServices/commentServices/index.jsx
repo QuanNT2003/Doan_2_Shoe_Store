@@ -13,7 +13,7 @@ export const getAllComment = async (params) => {
                     if (key === 'sortBy' || key === 'orderBy') {
                         return 'sort' + '=' + params[key];
                     }
-                    if (key === 'star') {
+                    if (key === 'rating') {
                         return key + '=' + params[key].value + '&';
                     }
                     if (key === 'user' || key === 'productId' || key === 'approve') {

@@ -163,6 +163,17 @@ const PageLayout = () => {
                     // headerBackVisible: true,
                 }}
             />
+
+            <Stack.Screen
+                name="CommentPage/index"
+                options={{
+                    headerShown: true,
+                    header: () => (
+                        <HeaderTitle title={'Bình luận'} />
+                    ),
+                    headerBackVisible: true,
+                }}
+            />
         </Stack>
     )
 }

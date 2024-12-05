@@ -12,7 +12,7 @@ const addCommas = (num) => {
 import { format } from 'date-fns';
 const CommentItem = ({ comment }) => {
     return (
-        <View className='border-solid border-b-[1px] pb-3 border-y-neutral-200'>
+        <View className='border-solid border-b-[1px] pb-3 border-y-neutral-200 bg-white'>
             <View className='flex-row p-2 items-center'>
                 <Image
                     source={comment.user?.images[0]?.url ? { uri: comment.user?.images[0]?.url } : LogoWithName}

@@ -232,8 +232,8 @@ const ProductDetail = () => {
 
             getList(
                 await createObjectQuery(
-                    1,
                     2,
+                    1,
                     '',
                     '',
                     '',
@@ -255,8 +255,8 @@ const ProductDetail = () => {
     const [rows, setRows] = useState([]);
 
     const createObjectQuery = async (
-        page,
         limit,
+        page,
         sortBy,
         orderBy,
         user,
@@ -338,10 +338,10 @@ const ProductDetail = () => {
                                 startingValue={4}
                             />
                         </View>
-                        <View className='flex flex-row items-center'>
+                        <TouchableOpacity className='flex flex-row items-center' onPress={() => router.push({ pathname: "(page)/CommentPage", params: { productId: id } })}>
                             <Text className='text-[12px] mr-2 text-gray-400'>Xem tất cả </Text>
                             <FontAwesome5 name='chevron-right' size={14} color='#9ca3af' solid />
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View>
                         <FlatList
