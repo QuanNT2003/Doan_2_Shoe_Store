@@ -1,27 +1,34 @@
 import {
     ToastAndroid,
+    Linking,
+    View
 } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
-import { WebView } from 'react-native-webview';
 const showToastWithGravity = (msg) => {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
 }
 const PaymentPage = () => {
     const router = useRouter()
     const { paymentUrl } = useLocalSearchParams()
+
+    useEffect(() => {
+        const openPaymentUrl = async () => {
+            try {
+                if (paymentUrl) {
+                    await Linking.openURL(paymentUrl);
+                } else {
+                    showToastWithGravity("Payment URL is invalid!");
+                }
+            } catch (err) {
+                console.error("Error opening payment URL:", err);
+                showToastWithGravity("Failed to open payment URL.");
+            }
+        };
+        openPaymentUrl();
+    }, [paymentUrl]);
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <WebView
-                javaScriptEnabled={true}
-                domStorageEnabled={true}
-                originWhitelist={['*']}
-                automaticallyAdjustContentInsets={false}
-                startInLoadingState={true}
-                source={{ uri: paymentUrl }}
-            />
-        </SafeAreaView>
+        <View />
 
     )
 }

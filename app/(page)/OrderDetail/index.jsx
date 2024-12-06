@@ -110,8 +110,8 @@ const OrderDetail = () => {
                 // showToastWithGravity('Đã hủy đơn thành công');
                 // console.log(result);
                 // setPaymentUrl(result?.order_url)
-                //router.push({ pathname: "(page)/PaymentPage", params: { paymentUrl: result?.order_url } })
-                await Linking.openURL(result?.order_url);
+                router.push({ pathname: "(page)/PaymentPage", params: { paymentUrl: result?.order_url } })
+                // await Linking.openURL(result?.order_url);
             }
         }
 
