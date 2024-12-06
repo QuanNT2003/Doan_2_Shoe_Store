@@ -15,7 +15,7 @@ const addCommas = (num) => {
 };
 const OrderItem = ({ item }) => {
     const router = useRouter()
-    console.log('orderItem', item);
+    // console.log('orderItem', item);
 
     return (
         <TouchableOpacity className=' bg-white border-solid border-b-[1px] pb-3 border-y-neutral-200 rounded m-2'

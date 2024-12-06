@@ -9,6 +9,7 @@ import {
     Alert,
     ToastAndroid,
     TextInput,
+    Linking
 } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router"
 import {
@@ -17,7 +18,9 @@ import {
 } from "@expo/vector-icons"
 import { useState, useEffect } from "react"
 import * as OrderServices from '../../apiServices/orderServices'
+import * as ZaloServices from '../../apiServices/zalopayServices'
 import { format } from 'date-fns';
+import { WebView } from 'react-native-webview';
 import LogoWithName from "../../../assets/images/sample.jpg"
 import moment from 'moment';
 import { useIsFocused } from "@react-navigation/native"
@@ -39,6 +42,7 @@ const OrderDetail = () => {
 
     const [obj, setObj] = useState(null);
     const [day, setDay] = useState(new Date())
+    const [paymentUrl, setPaymentUrl] = useState('')
 
     useEffect(() => {
         const fetchApi = async () => {
@@ -83,6 +87,31 @@ const OrderDetail = () => {
                 setLoading(false);
                 setDay(new Date());
                 showToastWithGravity('Đã hủy đơn thành công');
+            }
+        }
+
+        fetchApi();
+    }
+
+    const payment = () => {
+        setLoading(true);
+        const fetchApi = async () => {
+
+            const result = await ZaloServices.ZaloPay(obj)
+                .catch((err) => {
+                    // console.log(err);
+                    setLoading(false);
+                    showToastWithGravity('Có lỗi xảy ra');
+                });
+
+            if (result) {
+                setLoading(false);
+                setDay(new Date());
+                // showToastWithGravity('Đã hủy đơn thành công');
+                // console.log(result);
+                // setPaymentUrl(result?.order_url)
+                //router.push({ pathname: "(page)/PaymentPage", params: { paymentUrl: result?.order_url } })
+                await Linking.openURL(result?.order_url);
             }
         }
 
@@ -250,12 +279,15 @@ const OrderDetail = () => {
 
 
             <View className='bg-white absolute w-[100%] h-[60px] bottom-0 flex-row justify-around items-center'>
-                <TouchableOpacity className='bg-blue-600 w-[40%] h-[80%] justify-center items-center rounded-xl p-2' >
-                    <Text className='font-bold text-white text-[16px]'>Thanh toán ngay</Text>
-                </TouchableOpacity>
+                {
+                    obj?.paymentPending === false &&
+                    <TouchableOpacity className='bg-blue-600 w-[40%] h-[80%] justify-center items-center rounded-xl p-2' onPress={() => payment()}>
+                        <Text className='font-bold text-white text-[16px]'>Thanh toán ngay</Text>
+                    </TouchableOpacity>
+                }
                 {
                     obj?.status !== "delivered" &&
-                    <TouchableOpacity className='bg-red-600 w-[40%] h-[80%] justify-center items-center rounded-xl p-2' >
+                    <TouchableOpacity className='bg-red-600 w-[40%] h-[80%] justify-center items-center rounded-xl p-2' onPress={() => cancel()}>
                         <Text className='font-bold text-white text-[16px]'>Hủy đơn hàng</Text>
                     </TouchableOpacity>
                 }

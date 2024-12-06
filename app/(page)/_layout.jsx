@@ -163,7 +163,16 @@ const PageLayout = () => {
                     // headerBackVisible: true,
                 }}
             />
-
+            <Stack.Screen
+                name="PaymentPage/index"
+                options={{
+                    headerShown: false,
+                    // header: () => (
+                    //     <HeaderTitle title={'Chat'} />
+                    // ),
+                    // headerBackVisible: true,
+                }}
+            />
             <Stack.Screen
                 name="CommentPage/index"
                 options={{
