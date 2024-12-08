@@ -92,8 +92,39 @@ const OrderDetail = () => {
 
         fetchApi();
     }
-
     const payment = () => {
+        if (obj?.payment?.paymentType === 'zalopay') paymentZaloPay()
+        else if (obj?.payment?.paymentType === 'paypal') paymentPayPal()
+    }
+
+    const paymentPayPal = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch('http://192.168.81.208:3001/api/paypal/create-paypal-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    product: {
+                        description: '123',
+                        cost: parseFloat(obj?.payment?.total * 0.000039).toFixed(2)
+                    }
+                }),
+            });
+            const data = await response.json();
+            router.push({ pathname: "(page)/PaymentPage", params: { paymentUrl: data?.links[1]?.href } })
+
+
+        } catch (error) {
+            console.error('Error creating order:', error);
+        }
+
+        fetchApi();
+        setLoading(true);
+    }
+
+    const paymentZaloPay = () => {
         setLoading(true);
         const fetchApi = async () => {
 
