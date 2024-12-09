@@ -234,7 +234,7 @@ const OrderDetail = () => {
                                     {
                                         obj?.status === "delivered" && (<View className='flex-row justify-around m-2'>
                                             {
-                                                item?.comment === false && <TouchableOpacity className='border-[1px] border-green-400 w-[40%] h-[40px] justify-center items-center rounded-md' onPress={() => router.push({ pathname: "(page)/Comment" })}>
+                                                item?.comment === false && <TouchableOpacity className='border-[1px] border-green-400 w-[40%] h-[40px] justify-center items-center rounded-md' onPress={() => router.push({ pathname: "(page)/Comment", params: { objOrder: JSON.stringify(obj), item: JSON.stringify(item) } })}>
                                                     <Text className='font-bold text-green-600'>Đánh giá</Text>
                                                 </TouchableOpacity>
                                             }

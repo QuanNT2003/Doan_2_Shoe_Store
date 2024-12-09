@@ -11,6 +11,8 @@ const addCommas = (num) => {
 };
 import { format } from 'date-fns';
 const CommentItem = ({ comment }) => {
+    console.log(comment);
+
     return (
         <View className='border-solid border-b-[1px] pb-3 border-y-neutral-200 bg-white'>
             <View className='flex-row p-2 items-center'>
@@ -37,7 +39,8 @@ const CommentItem = ({ comment }) => {
                     {
                         comment?.images.map((item) => (
                             <Image
-                                source={item?.url}
+                                source={{ uri: item?.url }}
+                                key={item?.publicId}
                                 className='h-[120px] w-[120px] m-1'
                             />
                         ))

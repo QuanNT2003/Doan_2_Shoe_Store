@@ -13,19 +13,51 @@ import {
     MaterialCommunityIcons,
     FontAwesome5
 } from "@expo/vector-icons"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import InputCustom from "../../components/InputCustom"
 import LogoWithName from "../../../assets/images/Logo-with-name.png"
 import { Rating } from 'react-native-ratings';
+import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
+import * as CommentServices from '../../apiServices/commentServices'
+import * as ImageServices from '../../apiServices/imageServices'
+import * as UserServices from '../../apiServices/userServices';
+import * as asyncStorage from "../../store/asyncStorage"
+import * as OrderServices from '../../apiServices/orderServices'
+import ModalLoading from "../../components/ModalLoading"
+const showToastWithGravity = (msg) => {
+    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+}
 
+const addCommas = (num) => {
+    if (num === null) return;
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 const Comment = () => {
     const router = useRouter()
     const [day, setDay] = useState(new Date());
+    const [loading, setLoading] = useState(false)
+    const { objOrder, item } = useLocalSearchParams()
 
+    const [order, setOrder] = useState('')
+    const [obj, setObj] = useState('');
+    const [user, setUser] = useState('')
 
     const [imageUris, setImageUris] = useState([]);
+
+    const convertToBase64 = async (fileUri) => {
+        try {
+            const base64Data = await FileSystem.readAsStringAsync(fileUri, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
+            const mimeType = 'image/jpeg'; // Cần chỉnh đúng loại file
+            return `data:${mimeType};base64,${base64Data}`;
+        } catch (error) {
+            console.error('Error reading file:', error);
+            return null;
+        }
+    };
 
     const chooseImage = async () => {
         // Yêu cầu quyền truy cập
@@ -62,33 +94,144 @@ const Comment = () => {
 
     const [rating, setRating] = useState(0)
 
+    const processImages = async (imageUris) => {
+        try {
+            // Sử dụng Promise.all để xử lý tất cả Promise trong mảng
+            const images = await Promise.all(
+                imageUris.map((item) => convertToBase64(item))
+            );
 
-    const addComment = () => {
-        console.log(rating);
-        console.log(imageUris);
+            return images // Mảng các chuỗi Base64
+        } catch (error) {
+            console.error('Error processing images:', error);
+        }
+    };
 
+    const addComment = async () => {
+        // console.log(rating);
+        // console.log(imageUris);
+        //const image = await processImages(imageUris);
+
+        const fetchApi = async () => {
+            setLoading(true)
+
+            const image = {
+                images: await processImages(imageUris)
+            }
+
+            const result = await ImageServices.AddImages(image)
+                .catch((error) => {
+                    console.log(error);
+                    //setLoading(false);
+                    showToastWithGravity('Có lỗi xảy ra');
+                });
+
+            if (result) {
+                // console.log(result.status);
+                // setLoading(false)
+                //console.log(result.data);
+                const commentObj = {
+                    images: result.data,
+                    note: comment,
+                    productId: obj.product.productId,
+                    user: user,
+                    rating: rating,
+                    like: 0
+
+                }
+                const resultComment = await CommentServices.CreateComment(commentObj)
+                    .catch((error) => {
+                        console.log(error);
+                        setLoading(false);
+                        showToastWithGravity('Có lỗi xảy ra');
+                    });
+
+                if (resultComment) {
+
+                    let newObj = obj;
+                    newObj['comment'] = true;
+                    setObj(newObj)
+                    showToastWithGravity('Đã để lại bình luận');
+                    const resultUpdate = await OrderServices.UpdateOrder(order.orderId, order)
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                    setLoading(false);
+                }
+            }
+
+
+
+        }
+
+        fetchApi();
     }
 
     const handleRemoveImage = (index) => {
         imageUris.splice(index, 1)
         setDay(new Date())
     };
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            setObj(JSON.parse(item))
+            setOrder(JSON.parse(objOrder))
+            // const product = JSON.parse(item);
+            setDay(new Date())
+            // console.log(item.product.productId);
+            const login = await asyncStorage.getIsLogin()
+            // setIsLogin(login)
+            if (login === 'true') {
+                const id = await asyncStorage.getIdAsync()
+                // console.log("id", id);
+
+                const result = await UserServices.getUser(id)
+
+                setUser(result.data)
+            }
+
+
+        }
+
+        fetchApi();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            // setObj(JSON.parse(item))
+            const product = JSON.parse(item);
+            order?.item?.forEach((item) => {
+                if (item.product.productId === product.product.productId) {
+                    setObj(item);
+                    // console.log(item);
+
+                }
+            });
+
+
+        }
+        fetchApi();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [day]);
     return (
         <View className='h-full p-2 relative'>
             <View className='flex-row p-3 bg-white my-2 rounded-xl'>
                 <View className='w-[25%] m-1'>
                     <Image
-                        source={LogoWithName}
+                        source={obj?.product?.images[0]?.url ? { uri: obj?.product?.images[0]?.url } : LogoWithName}
                         className='h-[100px] w-[100px] m-0'
                     />
                 </View>
 
                 <View className='w-[75%] p-1'>
                     <Text className=' text-[13px] my-1' numberOfLines={2}>
-                        Cân điện tử sức khỏe thông minh hình lợn hồng cute, cân tiểu ly mini nhà bếp dùng pin
+                        {obj?.product?.name}
                     </Text>
                     <View className='flex-row justify-between items-center'>
-                        <Text className='text-[12px]'>đ <Text className='text-[16px]'>500.000</Text></Text>
+                        <Text className='text-[12px]'>đ <Text className='text-[16px]'>{addCommas(obj?.product?.price * (100 - obj?.product?.discount) / 100)} đ</Text></Text>
                     </View>
                 </View>
             </View>
@@ -146,6 +289,7 @@ const Comment = () => {
                     <Text className='font-bold text-white text-[16px]'>Xác nhận</Text>
                 </TouchableOpacity>
             </View>
+            <ModalLoading visible={loading} />
         </View>
 
     )
