@@ -81,7 +81,20 @@ const Return = () => {
         setErrorAddress('')
     };
     const [errorAddress, setErrorAddress] = useState('');
-
+    // reason
+    const [reason, setReason] = useState('');
+    const onChangeReason = (value) => {
+        setReason(value);
+        setErrorReason('')
+    };
+    const [errorReason, setErrorReason] = useState('');
+    // reason
+    const [bank, setBank] = useState('');
+    const onChangeBank = (value) => {
+        setBank(value);
+        setErrorBank('')
+    };
+    const [errorBank, setErrorBank] = useState('');
     // Return type
     const [returnType, setReturnType] = useState(false);
 
@@ -220,7 +233,9 @@ const Return = () => {
                 exchange: returnType,
                 exchangeItem: returnType === true ? newProduct : undefined,
                 status: 'receiving',
-                orderId: order.orderId
+                orderId: order.orderId,
+                reason: reason,
+                bank: bank
             }
 
             console.log(returnObj);
@@ -303,6 +318,24 @@ const Return = () => {
                                 handleChange={onChangeAddress}
 
                             />
+                            <InputCustom
+                                title={'Lý do đổi/ trả'}
+                                placeholder={'Nhập lý do đổi/ trả'}
+                                require
+                                area
+                                value={reason}
+                                error={errorReason}
+                                handleChange={onChangeReason}
+
+                            />
+
+                            <InputCustom
+                                value={bank}
+                                error={errorBank}
+                                handleChange={onChangeBank}
+                                require
+                                title={'Tài khoản hoàn trả (ZaloPay/Paypal'}
+                                placeholder={'Nhập tài khoản'} />
                         </View>
                         <View className=' border-b-[1px] border-y-neutral-200 bg-white my-2'>
                             <Text className='text-[16px] mb-3 px-4 pt-4'>Loại đơn</Text>

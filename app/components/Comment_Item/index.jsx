@@ -11,7 +11,7 @@ const addCommas = (num) => {
 };
 import { format } from 'date-fns';
 const CommentItem = ({ comment }) => {
-    console.log(comment);
+    // console.log(comment);
 
     return (
         <View className='border-solid border-b-[1px] pb-3 border-y-neutral-200 bg-white'>

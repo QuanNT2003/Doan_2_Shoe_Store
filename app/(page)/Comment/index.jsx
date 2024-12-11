@@ -157,6 +157,7 @@ const Comment = () => {
                             console.log(err);
                         });
                     setLoading(false);
+                    router.replace({ pathname: "(page)/OrderDetail", params: { id: order.orderId } })
                 }
             }
 
