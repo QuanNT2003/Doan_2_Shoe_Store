@@ -19,6 +19,7 @@ import {
 import { useState, useEffect } from "react"
 import * as OrderServices from '../../apiServices/orderServices'
 import * as ZaloServices from '../../apiServices/zalopayServices'
+import * as MomoServices from '../../apiServices/momoServices'
 import { format } from 'date-fns';
 import { WebView } from 'react-native-webview';
 import LogoWithName from "../../../assets/images/sample.jpg"
@@ -94,7 +95,7 @@ const OrderDetail = () => {
     }
     const payment = () => {
         if (obj?.payment?.paymentType === 'zalopay') paymentZaloPay()
-        else if (obj?.payment?.paymentType === 'paypal') paymentPayPal()
+        else if (obj?.payment?.paymentType === 'momopay') paymentMomoPay()
     }
 
     const paymentPayPal = async () => {
@@ -113,7 +114,8 @@ const OrderDetail = () => {
                 }),
             });
             const data = await response.json();
-            router.push({ pathname: "(page)/PaymentPage", params: { paymentUrl: data?.links[1]?.href } })
+            const approvalLink = data.links.find((link) => link.rel === "approve");
+            router.push({ pathname: "(page)/PaymentPage", params: { paymentUrl: approvalLink.href } })
 
 
         } catch (error) {
@@ -142,6 +144,31 @@ const OrderDetail = () => {
                 // console.log(result);
                 // setPaymentUrl(result?.order_url)
                 router.push({ pathname: "(page)/PaymentPage", params: { paymentUrl: result?.order_url } })
+                // await Linking.openURL(result?.order_url);
+            }
+        }
+
+        fetchApi();
+    }
+
+    const paymentMomoPay = () => {
+        setLoading(true);
+        const fetchApi = async () => {
+
+            const result = await MomoServices.MomoPay(obj)
+                .catch((err) => {
+                    // console.log(err);
+                    setLoading(false);
+                    showToastWithGravity('Có lỗi xảy ra');
+                });
+
+            if (result) {
+                setLoading(false);
+                setDay(new Date());
+                // showToastWithGravity('Đã hủy đơn thành công');
+                // console.log(result);
+                // setPaymentUrl(result?.order_url)
+                router.push({ pathname: "(page)/PaymentPage", params: { paymentUrl: result?.payUrl } })
                 // await Linking.openURL(result?.order_url);
             }
         }
@@ -265,8 +292,8 @@ const OrderDetail = () => {
                             <View className='flex-row justify-between py-3 mb-2 border-b-[1px] border-y-neutral-200'>
                                 <Text>{
                                     obj?.payment?.paymentType === 'cod' ? 'Thanh toán khi nhận hàng'
-                                        : obj?.payment?.paymentType === 'vnpay' ? 'Chuyển khoản VNPay'
-                                            : 'Chuyển khoản Paypal'
+                                        : obj?.payment?.paymentType === 'zalopay' ? 'Chuyển khoản ZaloPay'
+                                            : 'Chuyển khoản Momo'
                                 } ({obj?.payment?.remain === 0 ? 'Đã thanh toán' : 'Chưa thanh toán'})</Text>
                             </View>
                         </View>
