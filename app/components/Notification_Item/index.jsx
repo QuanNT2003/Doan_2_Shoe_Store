@@ -1,7 +1,7 @@
 import React from "react"
 import { Image, Text, View } from "react-native"
 import logo from "../../../assets/images/Logo-with-name.png"
-
+import { format } from 'date-fns';
 const Notifi_Item = ({ item }) => {
   return (
     <View
@@ -21,11 +21,11 @@ const Notifi_Item = ({ item }) => {
       <View className='h-[100%] w-[80%] pt-2'>
         <View className='relative mb-4 text-[15px]'>
           <Text>
-            <Text className='font-semibold'>{item.namePage} </Text>
-            {item.des}
+            <Text className='font-semibold'>{item.title} </Text>
+            {item.note}
           </Text>
         </View>
-        <Text className='text-[13px] '>{item.time}</Text>
+        <Text className='text-[13px] '>{format(new Date(item?.createdAt), 'dd MMM yyyy - HH:mm')}</Text>
       </View>
     </View>
   )

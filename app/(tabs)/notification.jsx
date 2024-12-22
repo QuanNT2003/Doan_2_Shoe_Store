@@ -8,7 +8,9 @@ import {
     FontAwesome6
 } from "@expo/vector-icons"
 import Notifi_Item from "../components/Notification_Item"
+import * as NotifiServices from '../apiServices/notifiServices'
 import { useEffect, useState } from "react"
+import * as asyncStorage from "../store/asyncStorage"
 const data = [
     {
         id: "1",
@@ -70,18 +72,46 @@ const data = [
 function notification() {
     const [list, setList] = useState([])
     const [day, setDay] = useState(new Date())
+
+
     useEffect(() => {
-        setList(data)
-    }, [])
+        const fetch = async () => {
+            const id = await asyncStorage.getIdAsync()
+            // console.log(id);
+
+            const notifiResult = await NotifiServices.getAllNotifi({
+                userId: id
+            })
+            if (notifiResult) {
+                setList(notifiResult.data)
+                // console.log(notifiResult);
+
+            }
+        }
+
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const setRead = async () => {
         let newList = list
 
         newList.map((item, index) => {
-            newList[index].read = true
+            newList[index].status = true
+            // updateNotifis(newList[index])
         })
         setList(newList)
         setDay(new Date())
+    }
+
+    const updateNotifis = async (item) => {
+        const notifiResult = await NotifiServices.updateNotifi(
+            item._id,
+            item,
+        )
+        if (notifiResult) {
+
+        }
     }
     useEffect(() => { }, [day])
     return (

@@ -9,12 +9,22 @@ export const getAllNotifi = async (params) => {
                     return key + '=' + params[key];
                 }).join('&');
 
-                console.log(serializedParams);
+                // console.log(serializedParams);
                 return serializedParams;
             },
         });
 
         return response;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export const updateNotifi = async (id, obj) => {
+    try {
+        const res = await request.putMethod('api/notifi/update/' + id, obj);
+        console.log(res);
+        return res;
     } catch (error) {
         return Promise.reject(error);
     }
