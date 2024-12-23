@@ -6,7 +6,7 @@ const Notifi_Item = ({ item }) => {
   return (
     <View
       className={
-        item.read === true
+        item.status === true
           ? "flex h-[90px] my-1 w-full flex-row items-center bg-white"
           : "flex h-[90px] my-1 w-full flex-row items-center bg-cyan-100"
       }
