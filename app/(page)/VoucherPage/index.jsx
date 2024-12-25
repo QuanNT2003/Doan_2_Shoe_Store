@@ -13,25 +13,55 @@ import {
 import {
     FontAwesome5,
 } from "@expo/vector-icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import { Tab, TabView } from '@rneui/themed';
 import VoucherItem from "../../components/VoucherItem";
-
+import * as PromotionCartServices from '../../apiServices/promotionCartServices'
+import * as asyncStorage from "../../store/asyncStorage"
+import * as UserServices from '../../apiServices/userServices';
 const VoucherPage = () => {
     const router = useRouter()
     const { position } = useLocalSearchParams()
 
     const [index, setIndex] = useState(0);
-    const [saleResult, setSaleResult] = useState([
-        { id: 1, classify: 'sale', rank: 1 }, { id: 2, classify: 'sale', rank: 0 }
-    ])
-    const [shipResult, setShipResult] = useState([
-        { id: 1, classify: 'ship', rank: 2 }, { id: 2, classify: 'ship', rank: 1 }
-    ])
-    const [payResult, setPayResult] = useState([
-        { id: 1, classify: 'pay', rank: 3 }, { id: 2, classify: 'pay', rank: 2 }
-    ])
+    const [saleResult, setSaleResult] = useState([])
+    const [shipResult, setShipResult] = useState([])
+    const [payResult, setPayResult] = useState([])
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            const login = await asyncStorage.getIsLogin()
+            // setIsLogin(login)
+            if (login === 'true') {
+                const id = await asyncStorage.getIdAsync()
+                // console.log("id", id);
+
+                const result = await UserServices.getUser(id)
+                console.log("result", result);
+                const resultVoucher = await PromotionCartServices.getAllCarts({ user: result.data._id })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (resultVoucher) {
+                    // console.log(resultVoucher);
+                    setPayResult(resultVoucher.pay)
+                    setSaleResult(resultVoucher.sale)
+                    setShipResult(resultVoucher.ship)
+                }
+
+            }
+
+
+
+        }
+
+        fetchApi();
+
+
+
+    }, []);
     return (
         < >
             <Tab
@@ -82,7 +112,7 @@ const VoucherPage = () => {
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <VoucherItem discount={item} />}
+                        renderItem={({ item }) => <VoucherItem discountCart={item} />}
 
                     />
                 </TabView.Item>
@@ -92,7 +122,7 @@ const VoucherPage = () => {
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <VoucherItem discount={item} />}
+                        renderItem={({ item }) => <VoucherItem discountCart={item} />}
 
                     />
                 </TabView.Item>
@@ -102,7 +132,7 @@ const VoucherPage = () => {
                         scrollEventThrottle={16}
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
-                        renderItem={({ item }) => <VoucherItem discount={item} />}
+                        renderItem={({ item }) => <VoucherItem discountCart={item} />}
 
                     />
                 </TabView.Item>

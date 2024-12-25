@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const request = axios.create({
-    baseURL: 'http://192.168.255.208:3001/',
+    baseURL: 'http://192.168.104.208:3001/',
 });
 
 const getToken = async () => {
