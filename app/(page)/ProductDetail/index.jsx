@@ -220,15 +220,15 @@ const ProductDetail = () => {
 
             }
 
-            // const related = await ProductServices.getRelatedProducts(id)
-            //     .catch((err) => {
-            //         console.log(err);
-            //     });
+            const related = await ProductServices.getRelatedProducts(id)
+                .catch((err) => {
+                    console.log(err);
+                });
 
-            // if (related) {
-            //     setListRelated(related.data)
+            if (related) {
+                setListRelated(related.data)
 
-            // }
+            }
 
             getList(
                 await createObjectQuery(
@@ -360,7 +360,7 @@ const ProductDetail = () => {
                     </View>
                 </View>
                 <View className='bg-white my-3'>
-                    {/* <Product_List list={listRelated} title={'Sản phẩm tương tự'} /> */}
+                    <Product_List list={listRelated} title={'Sản phẩm tương tự'} />
                 </View>
             </ScrollView>
 

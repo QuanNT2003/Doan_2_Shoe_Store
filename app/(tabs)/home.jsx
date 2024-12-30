@@ -6,6 +6,7 @@ import Carousel from "../components/Carousel"
 import Product_List from "../components/ProductList";
 import Recommen_List from "../components/Recommendation_Product";
 import * as ProductServices from '../apiServices/productServices'
+import * as asyncStorage from "../store/asyncStorage"
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 function home() {
     const slides = [
@@ -78,11 +79,27 @@ function home() {
                     1,
                     9,
                 ), setListNew);
-            getList(
-                await createObjectQuery(
-                    1,
-                    20,
-                ), setListJustForYou);
+
+            const login = await asyncStorage.getIsLogin()
+            if (login === 'true') {
+                const id = await asyncStorage.getIdAsync()
+                console.log("id", id);
+
+                const result = await ProductServices.getRecommendProducts(id)
+                if (result) {
+                    setListJustForYou(result.data)
+                }
+
+
+            }
+            else {
+                getList(
+                    await createObjectQuery(
+                        1,
+                        20,
+                    ), setListJustForYou);
+            }
+
             const now = new Date();
         }
 

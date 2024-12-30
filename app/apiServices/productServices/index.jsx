@@ -65,6 +65,16 @@ export const getRelatedProducts = async (id) => {
     }
 }
 
+export const getRecommendProducts = async (id) => {
+    try {
+        const res = await request.getMethod('api/product/get-recommend-product/' + id);
+        // console.log(res);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
 export const getSearch = async (search) => {
     try {
         const res = await request.getMethod('api/product/get-search/' + search);
