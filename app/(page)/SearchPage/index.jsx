@@ -119,7 +119,9 @@ const SearchPage = () => {
                         showsVerticalScrollIndicator={false}
                         onEndReachedThreshold={0.5}
                         renderItem={({ item }) => <View className='w-[50%] my-1 '>
-                            <ProductTypeItem item={item} />
+                            <ProductTypeItem item={item} click={() =>
+                                router.push({ pathname: "(page)/ProductCollection", params: { cateId: item._id } })
+                            } />
                         </View>}
                         ListFooterComponent={<View className='mb-10'></View>}
                         nestedScrollEnabled

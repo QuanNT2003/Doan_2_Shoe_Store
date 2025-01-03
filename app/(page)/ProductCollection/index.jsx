@@ -16,7 +16,6 @@ import { useState, useEffect } from "react"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import Product_item from "../../components/product_item/product_item"
 import MultiSelectComp from "../../components/MultiSelect"
-import { SafeAreaView } from "react-native-safe-area-context"
 import PriceRange from "../../components/PriceRange"
 import * as ProductServices from '../../apiServices/productServices'
 import * as CategoryServices from '../../apiServices/categoryServices';
@@ -69,7 +68,7 @@ const showToastWithGravity = (msg) => {
 }
 const ProductCollection = () => {
     const router = useRouter()
-    const { search } = useLocalSearchParams()
+    const { search, cateId } = useLocalSearchParams()
 
     const [openFilter, setOpenFilter] = useState(false)
     const setCloseFilter = () => {
@@ -259,6 +258,11 @@ const ProductCollection = () => {
         const fetch = async () => {
             getCate()
             getBrand()
+            if (cateId !== undefined) {
+                setSelectedLSP([cateId])
+                console.log('cateId', cateId);
+
+            }
             getList(
                 await createObjectQuery(
                     page,
@@ -266,6 +270,10 @@ const ProductCollection = () => {
                     sortBy,
                     orderBy,
                     search,
+                    selectedManufacturer,
+                    cateId !== undefined ? [cateId] : selectedLSP,
+                    selectedPL,
+                    priceTo === 0 ? '' : [priceFrom, priceTo]
                 ));
         }
 
